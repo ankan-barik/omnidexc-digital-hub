@@ -30,11 +30,9 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
-              <img 
-                src={omnidexcLogo} 
-                alt="OmniDexC Logo" 
-                className="w-10 h-10 object-contain filter brightness-0 invert"
-              />
+              <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+                <span className="text-accent-foreground font-bold text-lg">O</span>
+              </div>
               <span className="text-2xl font-bold">OmniDexC</span>
             </div>
             <p className="text-primary-foreground/80 mb-6 leading-relaxed max-w-md">
@@ -97,17 +95,17 @@ const Footer = () => {
         {/* Newsletter Signup */}
         <div className="border-t border-primary-foreground/20 pt-8 mb-8">
           <div className="max-w-md">
-            <h3 className="text-lg font-semibold mb-4">Stay Updated</h3>
+            <h3 className="text-lg font-semibold mb-4 text-accent">Stay Updated</h3>
             <p className="text-primary-foreground/80 mb-4">
-              Get the latest insights on digital trends and exclusive offers.
+              Get the latest insights on digital trends and exclusive offers delivered to your inbox.
             </p>
-            <div className="flex space-x-2">
+            <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-2 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder-primary-foreground/60 focus:outline-none focus:border-accent"
+                placeholder="Enter your email address"
+                className="flex-1 px-4 py-3 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder-primary-foreground/60 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all"
               />
-              <button className="px-6 py-2 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors">
+              <button className="px-8 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-all transform hover:scale-105 shadow-lg">
                 Subscribe
               </button>
             </div>
@@ -126,17 +124,17 @@ const Footer = () => {
               href="https://instagram.com/omnidexc" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-accent hover:scale-110 transition-all duration-300"
+              className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg"
             >
-              <Instagram className="w-5 h-5" />
+              <Instagram className="w-6 h-6 text-white" />
             </a>
             <a 
               href="https://linkedin.com/company/omnidexc" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-accent hover:scale-110 transition-all duration-300"
+              className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg"
             >
-              <Linkedin className="w-5 h-5" />
+              <Linkedin className="w-6 h-6 text-white" />
             </a>
           </div>
         </div>
