@@ -16,44 +16,47 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border z-40">
+    <header className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-md border-b border-border z-40 shadow-sm">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center space-x-3">
-            <img 
-              src={omnidexcLogo} 
-              alt="OmniDexC Logo" 
-              className="w-10 h-10 object-contain"
-            />
-            <span className="text-2xl font-bold text-primary">OmniDexC</span>
+          <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => scrollToSection('hero')}>
+            <div className="relative">
+              <img 
+                src={omnidexcLogo} 
+                alt="OmniDexC Logo" 
+                className="w-10 h-10 object-contain transition-transform duration-300 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 blur-lg" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-light bg-clip-text text-transparent">OmniDexC</span>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <button 
               onClick={() => scrollToSection('hero')}
-              className="text-foreground hover:text-primary transition-professional"
+              className="relative text-foreground hover:text-primary transition-professional font-medium px-2 py-1 rounded-md hover:bg-primary/5"
             >
               Home
             </button>
             <button 
               onClick={() => scrollToSection('about')}
-              className="text-foreground hover:text-primary transition-professional"
+              className="relative text-foreground hover:text-primary transition-professional font-medium px-2 py-1 rounded-md hover:bg-primary/5"
             >
               About
             </button>
             <button 
               onClick={() => scrollToSection('services')}
-              className="text-foreground hover:text-primary transition-professional"
+              className="relative text-foreground hover:text-primary transition-professional font-medium px-2 py-1 rounded-md hover:bg-primary/5"
             >
               Services
             </button>
             <button 
               onClick={() => scrollToSection('contact')}
-              className="text-foreground hover:text-primary transition-professional"
+              className="bg-primary text-primary-foreground px-6 py-2 rounded-lg font-medium transition-all duration-300 hover:bg-primary-light hover:shadow-lg hover:scale-105"
             >
-              Contact
+              Get Started
             </button>
             
             {/* Social Media Links */}

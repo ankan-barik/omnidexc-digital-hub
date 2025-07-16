@@ -46,27 +46,43 @@ const AboutSection = () => {
             <p className="text-lg text-muted-foreground leading-relaxed">
               Founded with a vision to bridge the gap between innovative ideas and digital reality, 
               OmniDexC has evolved into a trusted partner for businesses seeking comprehensive 
-              digital solutions.
+              digital solutions that drive real results.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Our multidisciplinary team combines technical expertise with creative vision to 
-              deliver solutions that not only meet your requirements but drive your business forward 
-              in the digital landscape.
+              Our multidisciplinary team of designers, developers, strategists, and creative professionals 
+              combines technical expertise with innovative thinking to deliver solutions that not only 
+              meet your requirements but exceed your expectations and drive your business forward.
             </p>
+            
+            {/* Key Differentiators */}
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-muted-foreground">End-to-end digital solutions under one roof</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-2 h-2 bg-accent rounded-full"></div>
+                <span className="text-muted-foreground">Proven track record with 100+ successful projects</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <div className="w-2 h-2 bg-primary rounded-full"></div>
+                <span className="text-muted-foreground">Dedicated support throughout your digital journey</span>
+              </div>
+            </div>
             
             {/* Stats */}
             <div className="grid grid-cols-3 gap-6 pt-6">
-              <div className="text-center">
+              <div className="text-center p-4 rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
                 <div className="text-3xl font-bold text-primary mb-2">100+</div>
-                <div className="text-sm text-muted-foreground">Projects Completed</div>
+                <div className="text-sm text-muted-foreground font-medium">Projects Completed</div>
               </div>
-              <div className="text-center">
+              <div className="text-center p-4 rounded-lg bg-gradient-to-br from-accent/5 to-accent/10 border border-accent/20">
                 <div className="text-3xl font-bold text-accent mb-2">50+</div>
-                <div className="text-sm text-muted-foreground">Happy Clients</div>
+                <div className="text-sm text-muted-foreground font-medium">Happy Clients</div>
               </div>
-              <div className="text-center">
+              <div className="text-center p-4 rounded-lg bg-gradient-to-br from-primary/5 to-primary/10 border border-primary/20">
                 <div className="text-3xl font-bold text-primary mb-2">24/7</div>
-                <div className="text-sm text-muted-foreground">Support</div>
+                <div className="text-sm text-muted-foreground font-medium">Expert Support</div>
               </div>
             </div>
           </div>

@@ -80,22 +80,26 @@ const HeroSection = () => {
 
           {/* Trust Indicators */}
           <div className="mt-16 fade-in-up">
-            <p className="text-sm text-muted-foreground mb-6">Trusted by startups and enterprises worldwide</p>
-            <div className="flex justify-center items-center space-x-8 opacity-60">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center">
-                <span className="text-xs font-bold text-primary">100+</span>
+            <p className="text-sm text-muted-foreground mb-8">Trusted by startups and enterprises worldwide</p>
+            <div className="grid grid-cols-3 gap-8 max-w-md mx-auto">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl font-bold text-primary">100+</span>
+                </div>
+                <span className="text-sm font-medium text-muted-foreground">Projects Delivered</span>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-accent/20 to-primary/20 rounded-lg flex items-center justify-center">
-                <span className="text-xs font-bold text-accent">50+</span>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-accent/10 to-primary/10 border border-accent/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <span className="text-2xl font-bold text-accent">50+</span>
+                </div>
+                <span className="text-sm font-medium text-muted-foreground">Happy Clients</span>
               </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center">
-                <span className="text-xs font-bold text-primary">24/7</span>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 rounded-xl flex items-center justify-center mx-auto mb-3">
+                  <span className="text-xl font-bold text-primary">24/7</span>
+                </div>
+                <span className="text-sm font-medium text-muted-foreground">Expert Support</span>
               </div>
-            </div>
-            <div className="flex justify-center items-center space-x-8 mt-2 text-xs text-muted-foreground">
-              <span>Projects</span>
-              <span>Clients</span>
-              <span>Support</span>
             </div>
           </div>
         </div>

@@ -33,13 +33,13 @@ const Footer = () => {
               <img 
                 src={omnidexcLogo} 
                 alt="OmniDexC Logo" 
-                className="w-10 h-10 object-contain brightness-0 invert"
+                className="w-10 h-10 object-contain filter brightness-0 invert"
               />
               <span className="text-2xl font-bold">OmniDexC</span>
             </div>
             <p className="text-primary-foreground/80 mb-6 leading-relaxed max-w-md">
-              Transforming businesses through innovative digital solutions. We are your complete 
-              partner for web development, design, branding, and digital marketing success.
+              Your trusted digital partner for web development, mobile apps, UI/UX design, video production, 
+              social media management, and comprehensive branding solutions that drive business growth.
             </p>
             
             {/* Contact Info */}

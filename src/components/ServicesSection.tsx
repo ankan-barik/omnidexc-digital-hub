@@ -7,42 +7,42 @@ const ServicesSection = () => {
       title: "Web Development",
       description: "Custom websites and web applications built with modern technologies, responsive design, and optimal performance.",
       features: ["React/Next.js", "Node.js", "Cloud Deployment", "SEO Optimized"],
-      gradient: "from-blue-500 to-cyan-500"
+      gradient: "from-primary to-primary-light"
     },
     {
       icon: Smartphone,
       title: "App Development",
       description: "Native and cross-platform mobile applications that deliver exceptional user experiences across all devices.",
       features: ["iOS & Android", "React Native", "Flutter", "App Store Deployment"],
-      gradient: "from-purple-500 to-pink-500"
+      gradient: "from-accent to-primary"
     },
     {
       icon: Palette,
       title: "UI/UX Design",
       description: "User-centered design solutions that combine aesthetics with functionality to create engaging digital experiences.",
       features: ["User Research", "Wireframing", "Prototyping", "Design Systems"],
-      gradient: "from-orange-500 to-red-500"
+      gradient: "from-primary-light to-accent"
     },
     {
       icon: Video,
       title: "Video Production",
       description: "Professional video content creation from concept to final edit, including promotional videos and social media content.",
       features: ["Concept Development", "Professional Filming", "Post-Production", "Motion Graphics"],
-      gradient: "from-green-500 to-teal-500"
+      gradient: "from-accent to-primary-glow"
     },
     {
       icon: Users,
       title: "Social Media Management",
       description: "Comprehensive social media strategies that build brand awareness and engage your target audience effectively.",
       features: ["Content Strategy", "Community Management", "Analytics & Reporting", "Paid Advertising"],
-      gradient: "from-indigo-500 to-blue-500"
+      gradient: "from-primary to-accent"
     },
     {
       icon: Star,
       title: "Branding Solutions",
       description: "Complete brand identity development that tells your story and connects with your audience on an emotional level.",
       features: ["Logo Design", "Brand Guidelines", "Marketing Materials", "Brand Strategy"],
-      gradient: "from-pink-500 to-rose-500"
+      gradient: "from-primary-glow to-primary"
     }
   ];
 

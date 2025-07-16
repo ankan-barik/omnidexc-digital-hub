@@ -141,7 +141,7 @@
 
   /* Loading animation styles */
   .loading-text {
-    @apply text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
+    @apply text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent;
     animation: pulse-glow 2s ease-in-out infinite;
   }
 
