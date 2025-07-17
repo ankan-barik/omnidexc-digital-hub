@@ -26,11 +26,22 @@ const HeroSection = () => {
         <div className="max-w-4xl mx-auto">
           {/* Main Heading */}
           <h1 className="text-5xl md:text-7xl font-bold mb-6 fade-in">
-            <span className="bg-gradient-to-r from-primary via-primary-light to-accent bg-clip-text text-transparent">
-              Digital Excellence
-            </span>
+            
             <br />
-            <span className="text-foreground">Delivered</span>
+<span className="text-center">
+  <span className="block text-7xl font-extrabold bg-gradient-to-r from-red-600 to-pink-600 text-transparent bg-clip-text mt-6">
+    DOMINATE
+  </span>
+  <span className="block text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text mt-6">
+    The Digital
+  </span>
+  <span className="block text-8xl font-extrabold bg-gradient-to-r from-green-600 to-lime-600 text-transparent bg-clip-text mt-6">
+    BATTLEFIELD
+  </span>
+</span>
+
+
+
           </h1>
           
           {/* Subheading */}
@@ -60,18 +71,19 @@ const HeroSection = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center slide-in-right">
-            <button 
-              onClick={() => scrollToSection('contact')}
-              className="btn-hero group"
-            >
-              Start Your Project
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-            </button>
+          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center slide-in-right">
+<button 
+  onClick={() => scrollToSection('contact')}
+  className="btn-hero group flex items-center"
+>
+  Start Your Project
+  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+</button>
+
             
             <button 
               onClick={() => scrollToSection('services')}
-              className="btn-secondary group"
+              className="btn-secondary group flex items-center"
             >
               <PlayCircle className="w-5 h-5 mr-2" />
               Explore Services
@@ -105,12 +117,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-primary rounded-full mt-2" />
-        </div>
-      </div>
+      
     </section>
   );
 };

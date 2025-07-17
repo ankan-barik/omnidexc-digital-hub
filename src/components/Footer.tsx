@@ -1,5 +1,4 @@
-import { Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
-import omnidexcLogo from '@/assets/omnidexc-logo.png';
+import { Instagram, Linkedin, Mail, Phone, MapPin, Diamond } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -23,49 +22,58 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-6 py-12">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="flex items-center space-x-3 mb-6">
-              <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
-                <span className="text-accent-foreground font-bold text-lg">O</span>
+            {/* Animated Diamond Logo - Same as Header */}
+            <div className="flex items-center space-x-3 mb-6 group">
+              <div className="relative">
+                <div className="w-12 h-12 bg-gradient-to-br from-pink-500 via-purple-600 to-indigo-700 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-2xl transition-all duration-500 group-hover:scale-110 relative overflow-hidden">
+                  <Diamond className="w-6 h-6 text-white fill-white/30 group-hover:rotate-180 transition-transform duration-700" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-400/40 to-indigo-600/40 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 blur-lg scale-125" />
               </div>
-              <span className="text-2xl font-bold">OmniDexC</span>
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent group-hover:from-purple-400 group-hover:via-pink-400 group-hover:to-indigo-400 transition-all duration-500">OmniDexC</span>
+                
+              </div>
             </div>
-            <p className="text-primary-foreground/80 mb-6 leading-relaxed max-w-md">
+            
+            <p className="text-gray-300 mb-6 leading-relaxed max-w-md">
               Your trusted digital partner for web development, mobile apps, UI/UX design, video production, 
               social media management, and comprehensive branding solutions that drive business growth.
             </p>
             
             {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-accent" />
-                <span className="text-primary-foreground/80">hello@omnidexc.com</span>
+              <div className="flex items-center space-x-3 group">
+                <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Mail className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">business.omnidexc@gmail.com</span>
               </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-accent" />
-                <span className="text-primary-foreground/80">+1 (555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <MapPin className="w-5 h-5 text-accent" />
-                <span className="text-primary-foreground/80">123 Digital Avenue, Tech City, TC 12345</span>
+              <div className="flex items-center space-x-3 group">
+                <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                  <Phone className="w-5 h-5 text-white" />
+                </div>
+                <span className="text-gray-300 group-hover:text-white transition-colors duration-300">+91 9122372108</span>
               </div>
             </div>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Our Services</h3>
+            <h3 className="text-lg font-semibold mb-6 text-white">Our Services</h3>
             <ul className="space-y-3">
               {services.map((service, index) => (
                 <li key={index}>
                   <a 
                     href="#services" 
-                    className="text-primary-foreground/80 hover:text-accent transition-colors"
+                    className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block"
                   >
                     {service}
                   </a>
@@ -76,13 +84,13 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-6 text-white">Quick Links</h3>
             <ul className="space-y-3">
               {quickLinks.map((link, index) => (
                 <li key={index}>
                   <a 
                     href="#" 
-                    className="text-primary-foreground/80 hover:text-accent transition-colors"
+                    className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block"
                   >
                     {link}
                   </a>
@@ -93,19 +101,19 @@ const Footer = () => {
         </div>
 
         {/* Newsletter Signup */}
-        <div className="border-t border-primary-foreground/20 pt-8 mb-8">
+        <div className="border-t border-gray-700 pt-8 mb-8">
           <div className="max-w-md">
-            <h3 className="text-lg font-semibold mb-4 text-accent">Stay Updated</h3>
-            <p className="text-primary-foreground/80 mb-4">
+            <h3 className="text-lg font-semibold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Stay Updated</h3>
+            <p className="text-gray-300 mb-4">
               Get the latest insights on digital trends and exclusive offers delivered to your inbox.
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <input
                 type="email"
                 placeholder="Enter your email address"
-                className="flex-1 px-4 py-3 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder-primary-foreground/60 focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/20 transition-all"
+                className="flex-1 px-4 py-3 rounded-lg bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all"
               />
-              <button className="px-8 py-3 bg-accent text-accent-foreground rounded-lg font-semibold hover:bg-accent/90 transition-all transform hover:scale-105 shadow-lg">
+              <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg hover:shadow-xl">
                 Subscribe
               </button>
             </div>
@@ -113,28 +121,30 @@ const Footer = () => {
         </div>
 
         {/* Bottom Footer */}
-        <div className="border-t border-primary-foreground/20 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <div className="text-primary-foreground/80 mb-4 md:mb-0">
+        <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center">
+          <div className="text-gray-400 mb-4 md:mb-0">
             © {currentYear} OmniDexC. All rights reserved.
           </div>
           
-          {/* Social Media Links */}
+          {/* Social Media Links - Enhanced with gradients */}
           <div className="flex space-x-4">
             <a 
               href="https://instagram.com/omnidexc" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg"
+              className="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-2xl relative overflow-hidden group"
             >
-              <Instagram className="w-6 h-6 text-white" />
+              <Instagram className="w-6 h-6 text-white relative z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </a>
             <a 
               href="https://linkedin.com/company/omnidexc" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg"
+              className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-2xl relative overflow-hidden group"
             >
-              <Linkedin className="w-6 h-6 text-white" />
+              <Linkedin className="w-6 h-6 text-white relative z-10" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </a>
           </div>
         </div>

@@ -91,7 +91,7 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold text-foreground">Email Us</h4>
-                  <p className="text-muted-foreground">hello@omnidexc.com</p>
+                  <p className="text-muted-foreground">business.omnidexc@gmail.com</p>
                 </div>
               </div>
 
@@ -101,19 +101,11 @@ const ContactSection = () => {
                 </div>
                 <div>
                   <h4 className="text-lg font-semibold text-foreground">Call Us</h4>
-                  <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                  <p className="text-muted-foreground">+91 9122372108</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
-                <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-semibold text-foreground">Visit Us</h4>
-                  <p className="text-muted-foreground">123 Digital Avenue, Tech City, TC 12345</p>
-                </div>
-              </div>
+              
             </div>
 
             {/* Why Choose Us */}
