@@ -1,4 +1,5 @@
 import { ArrowRight, PlayCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import heroBg from '@/assets/hero-bg.png';
 
 const HeroSection = () => {
@@ -72,13 +73,12 @@ const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-5 justify-center items-center slide-in-right">
-<button 
-  onClick={() => scrollToSection('contact')}
-  className="btn-hero group flex items-center"
->
-  Start Your Project
-  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-</button>
+            <Link to="/schedule-meeting">
+              <button className="btn-hero group flex items-center">
+                Start Your Project
+                <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </Link>
 
             
             <button 

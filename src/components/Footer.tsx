@@ -1,4 +1,5 @@
 import { Instagram, Linkedin, Mail, Phone, MapPin, Diamond } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -86,16 +87,24 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6 text-white">Quick Links</h3>
             <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <li key={index}>
-                  <a 
-                    href="#" 
-                    className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block"
-                  >
-                    {link}
-                  </a>
-                </li>
-              ))}
+              <li>
+                <a href="#about" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block">About Us</a>
+              </li>
+              <li>
+                <a href="#services" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block">Our Services</a>
+              </li>
+              <li>
+                <a href="#" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block">Portfolio</a>
+              </li>
+              <li>
+                <a href="#contact" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block">Contact</a>
+              </li>
+              <li>
+                <Link to="/privacy-policy" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block">Privacy Policy</Link>
+              </li>
+              <li>
+                <Link to="/terms-of-service" className="text-gray-300 hover:text-purple-400 transition-colors duration-300 hover:translate-x-2 transform inline-block">Terms of Service</Link>
+              </li>
             </ul>
           </div>
         </div>
