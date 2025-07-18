@@ -12,10 +12,15 @@ import Footer from '@/components/Footer';
 
 
 const Index = () => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    // Check if user is navigating back from another page
+    const hasVisited = sessionStorage.getItem('hasVisited');
+    return !hasVisited;
+  });
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
+    sessionStorage.setItem('hasVisited', 'true');
   };
 
   useEffect(() => {
