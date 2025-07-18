@@ -7,7 +7,7 @@ const TestimonialsSection = () => {
       role: "CEO, TechStart Inc.",
       content: "OmniDexC transformed our brand identity completely. Their attention to detail and creative approach exceeded our expectations. The team delivered exceptional results on time and within budget.",
       rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612c006?w=150&h=150&fit=crop&crop=face"
+      image: "https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vGBD7wIlSeNl7vOevWHiL93G4koMM967.jpg"
     },
     {
       name: "Michael Chen",
@@ -31,7 +31,7 @@ const TestimonialsSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
-            What Our <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">Clients Say</span>
+            Voices of  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">Satisfaction</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">

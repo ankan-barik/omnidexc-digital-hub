@@ -203,9 +203,11 @@ const HeroSection = () => {
                   </span>
                   
                   {/* Tagline */}
-                  <div className="mt-4 text-sm md:text-base font-bold  text-black text-muted-foreground tracking-widest uppercase opacity-80">
-                    Digital Excellence · Creative Solutions
-                  </div>
+                 <div className="mt-4 text-sm md:text-base font-bold text-black tracking-widest uppercase opacity-80 font-bold">
+  Digital Excellence · Creative Solutions
+</div>
+
+
                 </span>
               </span>
             </h1>
