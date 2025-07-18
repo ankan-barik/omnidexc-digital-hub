@@ -1,6 +1,7 @@
 import { ArrowRight, PlayCircle, X, Calendar, Clock, Users, MessageSquare, Mail, Phone, Briefcase, CheckCircle, Star, Shield, Zap, Sparkles, Code, Palette, Video, Share2, Award } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import heroBg from '@/assets/hero-bg.png';
+import ThemeToggle from './ThemeToggle';
 
 const HeroSection = () => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -172,6 +173,11 @@ const HeroSection = () => {
   return (
     <>
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Theme Toggle - Top Right */}
+        <div className="absolute top-6 right-6 z-20">
+          <ThemeToggle />
+        </div>
+
         {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img 
