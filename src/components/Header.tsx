@@ -5,6 +5,26 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
+  // Add custom CSS for pulsing animation
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes pulse-scale {
+        0%, 100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.1);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   const scrollToSection = (sectionId: string) => {
@@ -40,7 +60,7 @@ const Header = () => {
     const isActive = activeSection === section;
     return `relative transition-all duration-300 font-medium px-4 py-2 rounded-full group overflow-hidden text-sm ${
       isActive 
-        ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg' 
+        ? 'text-white bg-blue-800 shadow-lg' 
         : 'text-gray-700 hover:text-white'
     }`;
   };
@@ -49,8 +69,8 @@ const Header = () => {
     const isActive = activeSection === section;
     return `text-left transition-all duration-300 font-medium px-6 py-4 rounded-xl mx-2 group relative overflow-hidden ${
       isActive 
-        ? 'text-white bg-gradient-to-r from-blue-500 to-purple-600 shadow-lg' 
-        : 'text-gray-700 hover:text-white hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-600'
+        ? 'text-white bg-blue-800 shadow-lg' 
+        : 'text-gray-700 hover:text-white hover:bg-blue-800'
     }`;
   };
 
@@ -113,7 +133,7 @@ const Header = () => {
                   {/* Hover background for non-active items */}
                   {activeSection !== 'hero' && (
                     <>
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-900 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100" />
+                      <div className="absolute inset-0 bg-blue-800 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100" />
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 skew-x-12 rounded-full" />
                     </>
                   )}
@@ -131,7 +151,7 @@ const Header = () => {
                   {/* Hover background for non-active items */}
                   {activeSection !== 'about' && (
                     <>
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-900 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100" />
+                      <div className="absolute inset-0 bg-blue-800 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100" />
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 skew-x-12 rounded-full" />
                     </>
                   )}
@@ -149,7 +169,7 @@ const Header = () => {
                   {/* Hover background for non-active items */}
                   {activeSection !== 'services' && (
                     <>
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-900 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100" />
+                      <div className="absolute inset-0 bg-blue-800 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100" />
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 skew-x-12 rounded-full" />
                     </>
                   )}
@@ -164,14 +184,17 @@ const Header = () => {
 
           {/* Right Corner - Contact Button & Social Media */}
           <div className="hidden md:flex items-center space-x-4">
-            {/* Contact Button */}
+            {/* Contact Button with Pulsing Animation */}
             <button
               onClick={() => scrollToSection('contact')}
               className={`relative px-6 py-2.5 rounded-full font-semibold transition-all duration-300 hover:scale-105 flex items-center space-x-2 group overflow-hidden ${
                 activeSection === 'contact'
-                  ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25'
-                  : 'bg-gradient-to-r from-green-600 to-green-600 text-white hover:from-green-500 hover:to-green-500 hover:shadow-lg hover:shadow-blue-500/25'
+                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
+                  : 'bg-green-500 text-white hover:bg-green-400 hover:shadow-lg hover:shadow-green-500/25'
               }`}
+              style={{
+                animation: 'pulse-scale 1s ease-in-out infinite'
+              }}
             >
               {/* Button content */}
               <span className="relative z-10">Contact Us</span>
@@ -229,7 +252,7 @@ const Header = () => {
               >
                 <span className="relative z-10">Home</span>
                 {activeSection !== 'hero' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                  <div className="absolute inset-0 bg-blue-800/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
                 )}
               </button>
 
@@ -239,7 +262,7 @@ const Header = () => {
               >
                 <span className="relative z-10">About</span>
                 {activeSection !== 'about' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                  <div className="absolute inset-0 bg-blue-800/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
                 )}
               </button>
 
@@ -249,18 +272,21 @@ const Header = () => {
               >
                 <span className="relative z-10">Services</span>
                 {activeSection !== 'services' && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                  <div className="absolute inset-0 bg-blue-800/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
                 )}
               </button>
 
-              {/* Mobile CTA Button */}
+              {/* Mobile CTA Button with Pulsing Animation */}
               <button
                 onClick={() => scrollToSection('contact')}
                 className={`px-6 py-4 rounded-full font-semibold transition-all duration-300 mx-4 mt-6 flex items-center justify-center space-x-2 group relative overflow-hidden ${
                   activeSection === 'contact'
-                    ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/25'
-                    : 'bg-gradient-to-r from-green-600 to-green-600 text-white hover:from-green-500 hover:to-green-500'
+                    ? 'bg-green-500 text-white shadow-lg shadow-green-500/25'
+                    : 'bg-green-500 text-white hover:bg-green-400'
                 }`}
+                style={{
+                  animation: 'pulse-scale 1s ease-in-out infinite'
+                }}
               >
                 <span className="relative z-10">Contact Us</span>
                 

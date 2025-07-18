@@ -1,9 +1,10 @@
 import { ArrowRight, PlayCircle, X, Calendar, Clock, Users, MessageSquare, Mail, Phone, Briefcase, CheckCircle, Star, Shield, Zap, Sparkles, Code, Palette, Video, Share2, Award } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import heroBg from '@/assets/hero-bg.png';
 
 const HeroSection = () => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [displayText, setDisplayText] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,8 +14,26 @@ const HeroSection = () => {
     service: '',
     message: ''
   });
+
+  // Typewriter effect for OmniDexC
+  useEffect(() => {
+    const text = 'OmniDexC';
+    let currentIndex = 0;
+
+    const typewriterInterval = setInterval(() => {
+      if (currentIndex <= text.length) {
+        setDisplayText(text.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        // Reset and start over
+        currentIndex = 0;
+      }
+    }, 300); // Adjust speed here (300ms per letter)
+
+    return () => clearInterval(typewriterInterval);
+  }, []);
   
-  // Add CSS animations for glow effect
+  // Add CSS animations for glow effect (keeping other animations intact)
   const glowStyles = `
     @keyframes pulse-glow {
       0%, 100% {
@@ -43,6 +62,31 @@ const HeroSection = () => {
       100% {
         transform: translateX(100%);
       }
+    }
+
+    @keyframes text-fade {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    
+  
+    
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
     }
   `;
 
@@ -145,15 +189,29 @@ const HeroSection = () => {
             <h1 className="text-5xl md:text-7xl font-bold mb-6 fade-in">
               <br />
               <span className="text-center">
-                <span className="block text-8xl font- bg-gradient-to-r from-red-600 to-violet-600 text-transparent bg-clip-text mt-6">
-                  OmniDexC
+                <span className="block relative group">
+                  {/* Typewriter OmniDexC text */}
+                  <span 
+                    className="inline-block text-7xl md:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 text-transparent bg-clip-text relative mt-6 typewriter-cursor"
+                    style={{
+                      fontFamily: 'system-ui, -apple-system, sans-serif',
+                      letterSpacing: '0.05em',
+                      minHeight: '1em'
+                    }}
+                  >
+                    {displayText}
+                  </span>
+                  
+                  {/* Tagline */}
+                  <div className="mt-4 text-sm md:text-base font-bold  text-black text-muted-foreground tracking-widest uppercase opacity-80">
+                    Digital Excellence · Creative Solutions
+                  </div>
                 </span>
-                
               </span>
             </h1>
             
             {/* Subheading */}
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto fade-in-up">
+            <p className="text-xl md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto fade-in-up">
               We transform your ideas into powerful digital solutions. From web development to branding, 
               we're your complete digital partner for success in the modern world.
             </p>

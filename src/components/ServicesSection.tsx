@@ -129,42 +129,70 @@ const ServicesSection = () => {
                 <div key={slideIndex} className="min-w-full">
                   <div className="grid md:grid-cols-2 gap-8">
                     {services.slice(slideIndex * 2, slideIndex * 2 + 2).map((service, index) => (
-                      <div key={index} className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group border border-gray-100 hover:border-gray-200">
-                        {/* Image */}
-                        <div className="relative h-48 overflow-hidden">
+                      <div key={index} className="relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group border-0 hover:border-gray-100 transform hover:-translate-y-2">
+                        {/* Background Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        
+                        {/* Decorative Elements */}
+                        <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-br from-pink-400/10 to-orange-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+                        
+                        {/* Image with enhanced overlay */}
+                        <div className="relative h-56 overflow-hidden">
                           <img 
                             src={service.image} 
                             alt={service.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500"></div>
+                          
+                          {/* Floating Icon */}
+                          <div className="absolute top-6 right-6">
+                            <div className={`${service.iconBg} p-3 rounded-xl shadow-lg ${service.glowColor} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                              <service.icon className="w-6 h-6 text-white" />
+                            </div>
+                          </div>
                         </div>
                         
-                        <div className="p-8">
+                        <div className="relative p-8 z-10">
                           {/* Content */}
-                          <h3 className={`text-2xl font-bold mb-4 ${service.titleColor} group-hover:text-opacity-80 transition-colors duration-300`}>
-                            {service.title}
-                          </h3>
-                          <p className="text-gray-600 mb-6 leading-relaxed font-medium">
+                          <div className="flex items-center justify-between mb-4">
+                            <h3 className={`text-2xl font-bold ${service.titleColor} group-hover:text-gray-800 transition-colors duration-300`}>
+                              {service.title}
+                            </h3>
+                            <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full group-hover:w-3 group-hover:h-3 transition-all duration-300"></div>
+                          </div>
+                          
+                          <p className="text-gray-600 mb-6 leading-relaxed font-medium group-hover:text-gray-700 transition-colors duration-300">
                             {service.description}
                           </p>
                           
-                          {/* Features */}
-                          <ul className="space-y-3 mb-6">
+                          {/* Features with enhanced styling */}
+                          <div className="space-y-3 mb-8">
                             {service.features.map((feature, featureIndex) => (
-                              <li key={featureIndex} className="flex items-center text-sm text-gray-700">
-                                <div className={`w-2 h-2 ${service.accentColor} rounded-full mr-3 opacity-80`} />
+                              <div key={featureIndex} className="flex items-center text-sm text-gray-700 group-hover:text-gray-800 transition-colors duration-300">
+                                <div className="relative mr-3">
+                                  <div className={`w-2 h-2 ${service.accentColor} rounded-full`} />
+                                  <div className={`absolute inset-0 w-2 h-2 ${service.accentColor} rounded-full animate-ping opacity-20`} />
+                                </div>
                                 <span className="font-medium">{feature}</span>
-                              </li>
+                              </div>
                             ))}
-                          </ul>
+                          </div>
                           
-                          {/* CTA */}
-                          <button className={`${service.titleColor} font-semibold hover:opacity-70 transition-all duration-300 group-hover:translate-x-2 flex items-center text-sm uppercase tracking-wide`}>
-                            See Project
-                            <span className="ml-2 transition-transform duration-300">→</span>
-                          </button>
+                          {/* Enhanced CTA Button */}
+                          <div className="relative overflow-hidden">
+                            <button className={`${service.titleColor} font-semibold hover:text-white transition-all duration-500 group/btn px-6 py-3 rounded-xl border-2 border-current hover:border-transparent relative z-10 flex items-center text-sm uppercase tracking-wide group-hover:translate-x-1`}>
+                              <span className="relative z-10">See Project</span>
+                              <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
+                              <div className={`absolute inset-0 ${service.iconBg} transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 rounded-xl`}></div>
+                            </button>
+                          </div>
                         </div>
+                        
+                        {/* Subtle border glow effect */}
+                        <div className="absolute inset-0 rounded-3xl border border-transparent group-hover:border-gray-200 transition-all duration-500"></div>
                       </div>
                     ))}
                   </div>
