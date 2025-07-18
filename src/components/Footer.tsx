@@ -1,12 +1,13 @@
 import { Instagram, Linkedin, Mail, Phone } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    'Privacy Policy',
-    'Terms of Service',
-    'Disclaimer'
+    { label: 'Privacy Policy', path: '/privacy-policy' },
+    { label: 'Terms of Service', path: '/terms-of-service' },
+    { label: 'Disclaimer', path: '/disclaimer' }
   ];
 
   return (
@@ -119,12 +120,13 @@ const Footer = () => {
         <div className="mb-8">
           <div className="flex flex-wrap gap-3 justify-center">
             {quickLinks.map((link, index) => (
-              <button
+              <Link
                 key={index}
+                to={link.path}
                 className="px-4 py-2 bg-gray-800 border border-gray-600 text-gray-300 rounded-full font-medium text-sm hover:bg-gray-700 hover:border-gray-500 hover:text-white transition-all duration-300 transform hover:scale-105"
               >
-                {link}
-              </button>
+                {link.label}
+              </Link>
             ))}
           </div>
         </div>
