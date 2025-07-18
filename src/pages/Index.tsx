@@ -7,6 +7,9 @@ import ServicesSection from '@/components/ServicesSection';
 import ContactSection from '@/components/ContactSection';
 import Footer from '@/components/Footer';
 
+
+
+
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -36,6 +39,8 @@ const Index = () => {
         <ContactSection />
       </main>
       <Footer />
+
+     
     </div>
   );
 };

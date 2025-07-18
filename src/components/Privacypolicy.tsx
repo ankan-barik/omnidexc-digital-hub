@@ -1,4 +1,4 @@
-import { ArrowRight, PlayCircle, X, Calendar, Clock, Users, MessageSquare, Mail, Phone, Briefcase, CheckCircle, Star, Shield, Zap, Sparkles, Code, Palette, Video, Share2, Award } from 'lucide-react';
+import { ArrowRight, PlayCircle, X, Calendar, Clock, Users, MessageSquare, Mail, Phone, Briefcase, CheckCircle, Star, Shield, Zap } from 'lucide-react';
 import { useState } from 'react';
 import heroBg from '@/assets/hero-bg.png';
 
@@ -13,7 +13,7 @@ const HeroSection = () => {
     service: '',
     message: ''
   });
-  
+
   // Add CSS animations for glow effect
   const glowStyles = `
     @keyframes pulse-glow {
@@ -145,7 +145,7 @@ const HeroSection = () => {
             <h1 className="text-5xl md:text-7xl font-bold mb-6 fade-in">
               <br />
               <span className="text-center">
-                <span className="block text-8xl font- bg-gradient-to-r from-red-600 to-violet-600 text-transparent bg-clip-text mt-6">
+                <span className="block text-9xl font- bg-gradient-to-r from-red-600 to-violet-600 text-transparent bg-clip-text mt-6">
                   OmniDexC
                 </span>
                 
@@ -158,44 +158,25 @@ const HeroSection = () => {
               we're your complete digital partner for success in the modern world.
             </p>
 
-           <div className="flex flex-wrap justify-center gap-4 mb-16 fade-in-up-enhanced">
+            {/* Key Services */}
+            <div className="flex flex-wrap justify-center gap-4 mb-12 fade-in-up">
               {[
-                { name: 'Web Development', icon: Code, color: 'text-blue-400', bgGradient: 'from-blue-600/10 to-blue-600/10', borderColor: 'border-blue-500/20' },
-                { name: 'App Development', icon: Sparkles, color: 'text-purple-400', bgGradient: 'from-purple-500/10 to-purple-600/10', borderColor: 'border-purple-500/20' },
-                { name: 'UI/UX Design', icon: Palette, color: 'text-pink-400', bgGradient: 'from-pink-500/10 to-pink-600/10', borderColor: 'border-pink-500/20' },
-                { name: 'Video Production', icon: Video, color: 'text-red-400', bgGradient: 'from-red-500/10 to-red-600/10', borderColor: 'border-red-500/20' },
-                { name: 'Social Media', icon: Share2, color: 'text-green-400', bgGradient: 'from-green-500/10 to-green-600/10', borderColor: 'border-green-500/20' },
-                { name: 'Branding', icon: Award, color: 'text-yellow-400', bgGradient: 'from-yellow-500/10 to-yellow-600/10', borderColor: 'border-yellow-500/20' }
+                'Web Development', 
+                'App Development', 
+                'UI/UX Design', 
+                'Video Production', 
+                'Social Media', 
+                'Branding'
               ].map((service, index) => (
-                <div 
-                  key={service.name}
-                  className={`group relative px-4 py-2 bg-gradient-to-br ${service.bgGradient} backdrop-blur-sm border ${service.borderColor} rounded-2xl text-xs font-semibold text-foreground hover:bg-primary/10 hover:border-primary/40 transition-all duration-500 cursor-pointer transform hover:scale-105 hover:shadow-lg overflow-hidden`}
+                <span 
+                  key={service}
+                  className="px-4 py-2 bg-secondary/50 border border-border/50 rounded-full text-sm font-medium text-foreground"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                   {/* Animated background glow */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${service.bgGradient.replace('/10', '/20')} blur-sm`} />
-                  </div>
-                  
-                  {/* Icon floating animation */}
-                  <div className="relative flex items-center gap-3">
-                    <div className={`p-2 rounded-full bg-gradient-to-br ${service.bgGradient.replace('/10', '/30')} group-hover:scale-110 transition-all duration-300`}>
-                      <service.icon className={`w-3 h-3 ${service.color} group-hover:rotate-12 transition-all duration-300`} />
-                    </div>
-                    <span className="font-inter font-semibold tracking-wide group-hover:text-primary transition-colors duration-300">
-                      {service.name}
-                    </span>
-                  </div>
-                  
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 animate-pulse" 
-                         style={{ animation: 'text-shimmer 2s ease-in-out infinite' }} />
-                  </div>
-                </div>
+                  {service}
+                </span>
               ))}
             </div>
-
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center slide-in-right">
