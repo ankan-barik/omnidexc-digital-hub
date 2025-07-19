@@ -1,10 +1,19 @@
 import { ArrowRight, PlayCircle, X, Calendar, Clock, Users, MessageSquare, Mail, Phone, Briefcase, CheckCircle, Star, Shield, Zap, Sparkles, Code, Palette, Video, Share2, Award } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import heroBg from '@/assets/hero-bg.png';
 
 const HeroSection = () => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [displayText, setDisplayText] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+  const [formErrors, setFormErrors] = useState<{
+    name?: string;
+    email?: string;
+    date?: string;
+    time?: string;
+    service?: string;
+  }>({});
+  const [bookedSlots, setBookedSlots] = useState(new Map()); // Track booked slots per date
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -14,6 +23,43 @@ const HeroSection = () => {
     service: '',
     message: ''
   });
+
+  // Auto-hide success message and handle modal closure
+  useEffect(() => {
+    if (submitStatus === 'success') {
+      // Immediately scroll to top when booking is successful
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+      // Close modal after 3 seconds
+      const timer = setTimeout(() => {
+        setIsBookingModalOpen(false);
+        setSubmitStatus(null);
+      }, 3000); // 3 seconds
+      
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
+
+  // Load existing bookings from localStorage on component mount
+  useEffect(() => {
+    const savedBookings = localStorage.getItem('omnidexc-bookings');
+    if (savedBookings) {
+      try {
+        const bookings = JSON.parse(savedBookings);
+        const slotsMap = new Map();
+        bookings.forEach(booking => {
+          const dateKey = booking.date;
+          if (!slotsMap.has(dateKey)) {
+            slotsMap.set(dateKey, new Set());
+          }
+          slotsMap.get(dateKey).add(booking.time);
+        });
+        setBookedSlots(slotsMap);
+      } catch (error) {
+        console.error('Error loading bookings:', error);
+      }
+    }
+  }, []);
 
   // Typewriter effect for OmniDexC
   useEffect(() => {
@@ -25,15 +71,14 @@ const HeroSection = () => {
         setDisplayText(text.slice(0, currentIndex));
         currentIndex++;
       } else {
-        // Reset and start over
         currentIndex = 0;
       }
-    }, 300); // Adjust speed here (300ms per letter)
+    }, 300);
 
     return () => clearInterval(typewriterInterval);
   }, []);
   
-  // Add CSS animations for glow effect (keeping other animations intact)
+  // Add CSS animations for glow effect
   const glowStyles = `
     @keyframes pulse-glow {
       0%, 100% {
@@ -82,8 +127,6 @@ const HeroSection = () => {
       }
     }
     
-  
-    
     @keyframes blink {
       0%, 50% { opacity: 1; }
       51%, 100% { opacity: 0; }
@@ -101,64 +144,232 @@ const HeroSection = () => {
     }
   }
 
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+    
+    // Clear error when user starts typing
+    if (formErrors[name]) {
+      setFormErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
   };
 
-  const handleSubmit = () => {
-    // Basic validation
-    if (!formData.name || !formData.email || !formData.date || !formData.time || !formData.service) {
-      alert('Please fill in all required fields');
+  // Function to check if date is Sunday
+  const isSunday = (dateString) => {
+    const date = new Date(dateString);
+    return date.getDay() === 0; // 0 = Sunday
+  };
+
+  // Function to check if a time slot is available
+  const isTimeSlotAvailable = (date, time) => {
+    if (!date || !time) return true;
+    const dateSlots = bookedSlots.get(date);
+    return !dateSlots || !dateSlots.has(time);
+  };
+
+  // Function to check if a date is fully booked
+  const isDateFullyBooked = (date) => {
+    if (!date) return false;
+    const dateSlots = bookedSlots.get(date);
+    return dateSlots && dateSlots.size >= timeSlots.length;
+  };
+
+  // Function to get available time slots for selected date
+  const getAvailableTimeSlots = (date) => {
+    if (!date) return timeSlots;
+    const dateSlots = bookedSlots.get(date);
+    if (!dateSlots) return timeSlots;
+    return timeSlots.filter(time => !dateSlots.has(time));
+  };
+
+  // Function to save booking to localStorage
+  const saveBooking = (bookingData) => {
+    try {
+      const existingBookings = JSON.parse(localStorage.getItem('omnidexc-bookings') || '[]');
+      const newBooking = {
+        id: Date.now(),
+        ...bookingData,
+        bookedAt: new Date().toISOString()
+      };
+      existingBookings.push(newBooking);
+      localStorage.setItem('omnidexc-bookings', JSON.stringify(existingBookings));
+      
+      // Update bookedSlots state
+      const newBookedSlots = new Map(bookedSlots);
+      if (!newBookedSlots.has(bookingData.date)) {
+        newBookedSlots.set(bookingData.date, new Set());
+      }
+      newBookedSlots.get(bookingData.date).add(bookingData.time);
+      setBookedSlots(newBookedSlots);
+      
+      return true;
+    } catch (error) {
+      console.error('Error saving booking:', error);
+      return false;
+    }
+  };
+
+  // Function to get next Monday if Sunday is selected
+  const getNextMonday = (dateString) => {
+    const date = new Date(dateString);
+    const day = date.getDay();
+    if (day === 0) { // If Sunday
+      date.setDate(date.getDate() + 1); // Move to Monday
+    }
+    return date.toISOString().split('T')[0];
+  };
+
+  const handleSubmit = async () => {
+    // Reset previous errors
+    setFormErrors({});
+    
+    // Validation
+    const errors: {
+      name?: string;
+      email?: string;
+      date?: string;
+      time?: string;
+      service?: string;
+    } = {};
+    
+    if (!formData.name.trim()) {
+      errors.name = 'Please enter your full name';
+    }
+    
+    if (!formData.email.trim()) {
+      errors.email = 'Please enter your email address';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      errors.email = 'Please enter a valid email address';
+    }
+    
+    if (!formData.date) {
+      errors.date = 'Please select a preferred date';
+    }
+    
+    if (!formData.time) {
+      errors.time = 'Please select a preferred time slot';
+    }
+    
+    if (!formData.service) {
+      errors.service = 'Please select a service';
+    }
+    
+    // If there are errors, show them and return
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    // Check if selected date is Sunday
+    if (isSunday(formData.date)) {
+      setFormErrors({ date: 'We are closed on Sundays. Please select Monday-Saturday.' });
+      return;
+    }
+
+    // Check if date is fully booked
+    if (isDateFullyBooked(formData.date)) {
+      setFormErrors({ date: 'All time slots are booked for this date. Please select a different date.' });
+      return;
+    }
+
+    // Check if time slot is still available
+    if (!isTimeSlotAvailable(formData.date, formData.time)) {
+      setFormErrors({ time: 'This time slot has been booked. Please select a different time.' });
+      setFormData(prev => ({ ...prev, time: '' }));
       return;
     }
     
-    // Get day from the selected date
-    const selectedDate = new Date(formData.date);
-    const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
-    
-    // Create booking details
-    const bookingDetails = {
-      ...formData,
-      day: dayOfWeek,
-      submittedAt: new Date().toISOString()
-    };
-    
-    // Here you would typically send this data to your backend
-    console.log('Booking Details:', bookingDetails);
-    alert('Consultation booked successfully! We will contact you shortly.');
-    
-    // Reset form and close modal
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      date: '',
-      time: '',
-      service: '',
-      message: ''
-    });
-    setIsBookingModalOpen(false);
-  };
+    setIsSubmitting(true);
+    setSubmitStatus(null);
 
+    try {
+      // Get day from the selected date
+      const selectedDate = new Date(formData.date);
+      const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+      
+      // Save booking locally first (to prevent double booking)
+      const bookingData = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || 'Not provided',
+        date: formData.date,
+        day: dayOfWeek,
+        time: formData.time,
+        service: formData.service,
+        message: formData.message || 'No additional details provided'
+      };
+
+      const bookingSaved = saveBooking(bookingData);
+      if (!bookingSaved) {
+        throw new Error('Failed to save booking locally');
+      }
+      
+      // Create FormData object for Web3Forms
+      const formDataToSend = new FormData();
+      formDataToSend.append("access_key", "e25fc0ac-254d-4787-af9c-23adf837d81c");
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("phone", formData.phone || 'Not provided');
+      formDataToSend.append("date", formData.date);
+      formDataToSend.append("day", dayOfWeek);
+      formDataToSend.append("time", formData.time);
+      formDataToSend.append("service", formData.service);
+      formDataToSend.append("message", formData.message || 'No additional details provided');
+      formDataToSend.append("to", "business.omnidexc@gmail.com");
+      formDataToSend.append("subject", `New Consultation Booking - ${formData.service}`);
+
+      // Send email using Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataToSend
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus('success');
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          date: '',
+          time: '',
+          service: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Failed to book consultation');
+      }
+    } catch (error) {
+      console.error('Error booking consultation:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+  
   const serviceOptions = [
     'Web Development',
     'App Development', 
     'UI/UX Design',
-    'Video Production',
-    'Social Media',
-    'Branding',
-    'E-commerce Solutions',
+    'Video Editing & Production',
+    'Social Media Management',
+    'Branding Solutions',
+   
     'Digital Marketing',
     'Other'
   ];
@@ -171,28 +382,23 @@ const HeroSection = () => {
 
   return (
     <>
-      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
-      <div className="absolute inset-0 z-0">
-        <img 
-          src={heroBg} 
-          alt="Hero Background" 
-          className="w-full h-full object-cover opacity-10"
-        />
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/5" />
-      </div>
+      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/5" />
+        </div>
 
         {/* Content */}
         <div className="relative z-10 container mx-auto px-6 text-center">
           <div className="max-w-4xl mx-auto">
             {/* Main Heading */}
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 fade-in">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <br />
               <span className="text-center">
                 <span className="block relative group">
                   {/* Typewriter OmniDexC text */}
                   <span 
-                    className="inline-block text-7xl md:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 text-transparent bg-clip-text relative mt-6 typewriter-cursor"
+                    className="inline-block text-7xl md:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 text-transparent bg-clip-text relative mt-6"
                     style={{
                       fontFamily: 'system-ui, -apple-system, sans-serif',
                       letterSpacing: '0.05em',
@@ -203,93 +409,123 @@ const HeroSection = () => {
                   </span>
                   
                   {/* Tagline */}
-                 <div className="mt-4 text-sm md:text-base font-bold text-black tracking-widest uppercase opacity-80 font-bold">
-  Digital Excellence · Creative Solutions
-</div>
-
-
+                  <div className="mt-4 text-sm md:text-base font-bold text-black tracking-widest uppercase opacity-80">
+                    Digital Excellence · Creative Solutions
+                  </div>
                 </span>
               </span>
             </h1>
             
             {/* Subheading */}
-            <p className="text-xl md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto fade-in-up">
+            <p className="text-xl md:text-xl text-gray-500 mb-8 max-w-3xl mx-auto">
               We transform your ideas into powerful digital solutions. From web development to branding, 
               we're your complete digital partner for success in the modern world.
             </p>
 
-           <div className="flex flex-wrap justify-center gap-4 mb-16 fade-in-up-enhanced">
+            <div className="flex flex-wrap justify-center gap-4 mb-16">
               {[
-                { name: 'Web Development', icon: Code, color: 'text-blue-400', bgGradient: 'from-blue-600/10 to-blue-600/10', borderColor: 'border-blue-500/20' },
-                { name: 'App Development', icon: Sparkles, color: 'text-purple-400', bgGradient: 'from-purple-500/10 to-purple-600/10', borderColor: 'border-purple-500/20' },
-                { name: 'UI/UX Design', icon: Palette, color: 'text-pink-400', bgGradient: 'from-pink-500/10 to-pink-600/10', borderColor: 'border-pink-500/20' },
-                { name: 'Video Production', icon: Video, color: 'text-red-400', bgGradient: 'from-red-500/10 to-red-600/10', borderColor: 'border-red-500/20' },
-                { name: 'Social Media', icon: Share2, color: 'text-green-400', bgGradient: 'from-green-500/10 to-green-600/10', borderColor: 'border-green-500/20' },
-                { name: 'Branding', icon: Award, color: 'text-yellow-400', bgGradient: 'from-yellow-500/10 to-yellow-600/10', borderColor: 'border-yellow-500/20' }
+                { 
+                  name: 'Web Development', 
+                  icon: Code, 
+                  iconColor: 'text-blue-400',
+                  bgColor: 'bg-blue-50',
+                  borderColor: 'border-blue-200',
+                  hoverBg: 'hover:bg-blue-100',
+                  hoverBorder: 'hover:border-blue-400',
+                  hoverText: 'hover:text-blue-700',
+                  iconBg: 'bg-blue-100',
+                  hoverIconBg: 'group-hover:bg-blue-200'
+                },
+                { 
+                  name: 'App Development', 
+                  icon: Sparkles, 
+                  iconColor: 'text-purple-400',
+                  bgColor: 'bg-purple-50',
+                  borderColor: 'border-purple-200',
+                  hoverBg: 'hover:bg-purple-100',
+                  hoverBorder: 'hover:border-purple-400',
+                  hoverText: 'hover:text-purple-700',
+                  iconBg: 'bg-purple-100',
+                  hoverIconBg: 'group-hover:bg-purple-200'
+                },
+                { 
+                  name: 'UI/UX Design', 
+                  icon: Palette, 
+                  iconColor: 'text-pink-400',
+                  bgColor: 'bg-pink-50',
+                  borderColor: 'border-pink-200',
+                  hoverBg: 'hover:bg-pink-100',
+                  hoverBorder: 'hover:border-pink-400',
+                  hoverText: 'hover:text-pink-700',
+                  iconBg: 'bg-pink-100',
+                  hoverIconBg: 'group-hover:bg-pink-200'
+                },
+                { 
+                  name: 'Video Production', 
+                  icon: Video, 
+                  iconColor: 'text-red-400',
+                  bgColor: 'bg-red-50',
+                  borderColor: 'border-red-200',
+                  hoverBg: 'hover:bg-red-100',
+                  hoverBorder: 'hover:border-red-400',
+                  hoverText: 'hover:text-red-700',
+                  iconBg: 'bg-red-100',
+                  hoverIconBg: 'group-hover:bg-red-200'
+                },
+                { 
+                  name: 'Social Media', 
+                  icon: Share2, 
+                  iconColor: 'text-green-400',
+                  bgColor: 'bg-green-50',
+                  borderColor: 'border-green-200',
+                  hoverBg: 'hover:bg-green-100',
+                  hoverBorder: 'hover:border-green-400',
+                  hoverText: 'hover:text-green-700',
+                  iconBg: 'bg-green-100',
+                  hoverIconBg: 'group-hover:bg-green-200'
+                },
+                { 
+                  name: 'Branding', 
+                  icon: Award, 
+                  iconColor: 'text-yellow-400',
+                  bgColor: 'bg-yellow-50',
+                  borderColor: 'border-yellow-200',
+                  hoverBg: 'hover:bg-yellow-100',
+                  hoverBorder: 'hover:border-yellow-400',
+                  hoverText: 'hover:text-yellow-700',
+                  iconBg: 'bg-yellow-100',
+                  hoverIconBg: 'group-hover:bg-yellow-200'
+                }
               ].map((service, index) => (
                 <div 
                   key={service.name}
-                  className={`group relative px-4 py-2 bg-gradient-to-br ${service.bgGradient} backdrop-blur-sm border ${service.borderColor} rounded-2xl text-xs font-semibold text-foreground hover:bg-primary/10 hover:border-primary/40 transition-all duration-500 cursor-pointer transform hover:scale-105 hover:shadow-lg overflow-hidden`}
-                  style={{ animationDelay: `${index * 0.1}s` }}
+                  className={`group relative px-4 py-2 ${service.bgColor} backdrop-blur-sm border ${service.borderColor} rounded-2xl text-xs font-semibold text-gray-700 ${service.hoverBg} ${service.hoverBorder} transition-all duration-500 cursor-pointer transform hover:scale-105 hover:shadow-lg`}
                 >
-                   {/* Animated background glow */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className={`absolute inset-0 bg-gradient-to-br ${service.bgGradient.replace('/10', '/20')} blur-sm`} />
-                  </div>
-                  
-                  {/* Icon floating animation */}
                   <div className="relative flex items-center gap-3">
-                    <div className={`p-2 rounded-full bg-gradient-to-br ${service.bgGradient.replace('/10', '/30')} group-hover:scale-110 transition-all duration-300`}>
-                      <service.icon className={`w-3 h-3 ${service.color} group-hover:rotate-12 transition-all duration-300`} />
+                    <div className={`p-2 rounded-full ${service.iconBg} ${service.hoverIconBg} transition-all duration-300`}>
+                      <service.icon className={`w-3 h-3 ${service.iconColor} group-hover:rotate-12 transition-all duration-300`} />
                     </div>
-                    <span className="font-inter font-semibold tracking-wide group-hover:text-primary transition-colors duration-300">
+                    <span className={`font-semibold tracking-wide ${service.hoverText} transition-colors duration-300`}>
                       {service.name}
                     </span>
-                  </div>
-                  
-                  {/* Shimmer effect */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 animate-pulse" 
-                         style={{ animation: 'text-shimmer 2s ease-in-out infinite' }} />
                   </div>
                 </div>
               ))}
             </div>
 
-
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center slide-in-right">
+            <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <button 
                 onClick={() => setIsBookingModalOpen(true)}
                 className="relative px-8 py-4 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group flex items-center overflow-hidden"
-               
               >
-                {/* Animated glow overlay */}
-                <div 
-                  className="absolute inset-0 bg-gradient-to-r from-red-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"
-                  style={{
-                    animation: 'shimmer 2s ease-in-out infinite'
-                  }}
-                />
-                
-                {/* Button content */}
                 <span className="relative z-10">Start Your Project</span>
                 <ArrowRight className="relative z-10 w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-                
-                {/* Glow effect */}
-                <div 
-                  className="absolute inset-0 rounded-lg opacity-75"
-                  style={{
-                    background: 'linear-gradient(45deg, rgba(220, 38, 127, 0.4), rgba(236, 72, 153, 0.4))',
-                    filter: 'blur(8px)',
-                    animation: 'glow-pulse 2s ease-in-out infinite'
-                  }}
-                />
               </button>
               
               <button 
                 onClick={() => scrollToSection('services')}
-                className="px-8 py-4 bg-transparent border-2 border-primary text-primary rounded-lg font-semibold hover:bg-primary hover:text-white transition-all duration-300 group flex items-center"
+                className="px-8 py-4 bg-transparent border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 group flex items-center"
               >
                 <PlayCircle className="w-5 h-5 mr-2" />
                 Explore Services
@@ -297,26 +533,26 @@ const HeroSection = () => {
             </div>
 
             {/* Trust Indicators */}
-            <div className="mt-16 fade-in-up">
-              <p className="text-sm text-muted-foreground mb-8">Trusted by startups and enterprises worldwide</p>
+            <div className="mt-16">
+              <p className="text-sm text-gray-500 mb-8">Trusted by startups and enterprises worldwide</p>
               <div className="grid grid-cols-3 gap-8 max-w-md mx-auto">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <span className="text-2xl font-bold text-primary">100+</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 border border-blue-200 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <span className="text-2xl font-bold text-blue-600">10+</span>
                   </div>
-                  <span className="text-sm font-medium text-muted-foreground">Projects Delivered</span>
+                  <span className="text-sm font-medium text-gray-600">Projects Delivered</span>
                 </div>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-accent/10 to-primary/10 border border-accent/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <span className="text-2xl font-bold text-accent">50+</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 border border-purple-200 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <span className="text-2xl font-bold text-purple-600">20+</span>
                   </div>
-                  <span className="text-sm font-medium text-muted-foreground">Happy Clients</span>
+                  <span className="text-sm font-medium text-gray-600">Happy Clients</span>
                 </div>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <span className="text-xl font-bold text-primary">24/7</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 border border-blue-200 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <span className="text-xl font-bold text-blue-600">24/7</span>
                   </div>
-                  <span className="text-sm font-medium text-muted-foreground">Expert Support</span>
+                  <span className="text-sm font-medium text-gray-600">Expert Support</span>
                 </div>
               </div>
             </div>
@@ -327,7 +563,7 @@ const HeroSection = () => {
       {/* Booking Modal */}
       {isBookingModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl border border-gray-200 dark:border-slate-700">
+          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl border border-gray-200">
             {/* Modal Header */}
             <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-8 rounded-t-3xl">
               <button
@@ -364,21 +600,59 @@ const HeroSection = () => {
 
             {/* Modal Content */}
             <div className="p-8 space-y-8">
+              {/* Status Messages - At the bottom of modal */}
+              {submitStatus === 'success' && (
+                <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 p-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl shadow-2xl max-w-md mx-auto animate-fade-in z-50">
+                  <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-4">
+                      <CheckCircle className="w-6 h-6 text-white" />
+                    </div>
+                    <h4 className="text-lg font-semibold text-green-900 mb-2">Consultation Booked Successfully! 🎉</h4>
+                    <p className="text-green-800 mb-2">We've received your booking request!</p>
+                    <p className="text-sm text-green-700">
+                      Our team will review your requirements and confirm your consultation within 24 hours. 
+                      We're excited to help bring your vision to life! 🚀
+                    </p>
+                    <div className="mt-4 text-xs text-green-600">
+                      This window will close automatically in 3 seconds...
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="p-6 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 rounded-2xl shadow-lg">
+                  <div className="text-center">
+                    <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-red-500 to-rose-500 rounded-full mb-4">
+                      <div className="w-6 h-6 text-white font-bold">⚠️</div>
+                    </div>
+                    <h4 className="text-lg font-semibold text-red-900 mb-2">Oops! Something went wrong</h4>
+                    <p className="text-red-800 mb-2">We couldn't process your booking at the moment.</p>
+                    <p className="text-sm text-red-700">
+                      Please try again or reach us directly at{' '}
+                      <a href="mailto:business.omnidexc@gmail.com" className="underline font-medium">
+                        business.omnidexc@gmail.com
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Personal Information Section */}
-              <div className="bg-gray-50 dark:bg-slate-800 rounded-2xl p-6">
+              <div className="bg-gray-50 rounded-2xl p-6">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                    <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <Users className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Personal Information</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Tell us about yourself</p>
+                    <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+                    <p className="text-sm text-gray-600">Tell us about yourself</p>
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       <Users className="w-4 h-4 inline mr-2 text-blue-600" />
                       Full Name *
                     </label>
@@ -388,13 +662,18 @@ const HeroSection = () => {
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white transition-all duration-200 hover:border-blue-300"
+                      className={`w-full px-4 py-3 border ${formErrors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300`}
                       placeholder="Enter your full name"
                     />
+                    {formErrors.name && (
+                      <p className="text-xs text-red-600 mt-1">
+                        {formErrors.name}
+                      </p>
+                    )}
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       <Mail className="w-4 h-4 inline mr-2 text-blue-600" />
                       Email Address *
                     </label>
@@ -404,13 +683,18 @@ const HeroSection = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white transition-all duration-200 hover:border-blue-300"
+                      className={`w-full px-4 py-3 border ${formErrors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300`}
                       placeholder="your@email.com"
                     />
+                    {formErrors.email && (
+                      <p className="text-xs text-red-600 mt-1">
+                        {formErrors.email}
+                      </p>
+                    )}
                   </div>
                   
                   <div className="space-y-2 md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       <Phone className="w-4 h-4 inline mr-2 text-blue-600" />
                       Phone Number
                     </label>
@@ -419,7 +703,7 @@ const HeroSection = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-slate-700 dark:text-white transition-all duration-200 hover:border-blue-300"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 hover:border-blue-300"
                       placeholder="+1 (555) 000-0000"
                     />
                   </div>
@@ -427,27 +711,27 @@ const HeroSection = () => {
               </div>
 
               {/* Appointment Details Section */}
-              <div className="bg-gray-50 dark:bg-slate-800 rounded-2xl p-6">
+              <div className="bg-gray-50 rounded-2xl p-6">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-green-600 dark:text-green-400" />
+                  <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                    <Calendar className="w-5 h-5 text-green-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Appointment Details</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Choose your preferred time</p>
+                    <h3 className="text-lg font-semibold text-gray-900">Appointment Details</h3>
+                    <p className="text-sm text-gray-600">Choose your preferred time</p>
                   </div>
                 </div>
                 
                 {/* Service Hours Info */}
-                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-6">
+                <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-6">
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-green-600 dark:text-green-400" />
+                    <Clock className="w-5 h-5 text-green-600" />
                     <div>
-                      <p className="text-sm font-medium text-green-800 dark:text-green-200">
+                      <p className="text-sm font-medium text-green-800">
                         Service Hours: Monday - Saturday, 9:00 AM - 7:00 PM
                       </p>
-                      <p className="text-xs text-green-600 dark:text-green-400 mt-1">
-                        We'll confirm your appointment within 24 hours
+                      <p className="text-xs text-green-600 mt-1">
+                        We're closed on Sundays. We'll confirm your appointment within 24 hours.
                       </p>
                     </div>
                   </div>
@@ -455,7 +739,7 @@ const HeroSection = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       <Calendar className="w-4 h-4 inline mr-2 text-green-600" />
                       Preferred Date *
                     </label>
@@ -466,12 +750,32 @@ const HeroSection = () => {
                       onChange={handleInputChange}
                       required
                       min={new Date().toISOString().split('T')[0]}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-slate-700 dark:text-white transition-all duration-200 hover:border-green-300"
+                      className={`w-full px-4 py-3 border ${formErrors.date ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300`}
                     />
+                    {formErrors.date && (
+                      <p className="text-xs text-red-600 mt-1">
+                        {formErrors.date}
+                      </p>
+                    )}
+                    {!formErrors.date && formData.date && isSunday(formData.date) && (
+                      <p className="text-xs text-red-600 mt-1">
+                        ⚠️ We're closed on Sundays. Please select Monday-Saturday.
+                      </p>
+                    )}
+                    {!formErrors.date && formData.date && !isSunday(formData.date) && isDateFullyBooked(formData.date) && (
+                      <p className="text-xs text-red-600 mt-1">
+                        ⚠️ All time slots are booked for this date. Please select a different date.
+                      </p>
+                    )}
+                    {!formErrors.date && formData.date && !isSunday(formData.date) && !isDateFullyBooked(formData.date) && (
+                      <p className="text-xs text-green-600 mt-1">
+                        ✅ {getAvailableTimeSlots(formData.date).length} time slots available for this date.
+                      </p>
+                    )}
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       <Clock className="w-4 h-4 inline mr-2 text-green-600" />
                       Preferred Time *
                     </label>
@@ -480,32 +784,56 @@ const HeroSection = () => {
                       value={formData.time}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-slate-700 dark:text-white transition-all duration-200 hover:border-green-300"
+                      disabled={!formData.date || isSunday(formData.date) || isDateFullyBooked(formData.date)}
+                      className={`w-full px-4 py-3 border ${formErrors.time ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 hover:border-green-300 disabled:opacity-50 disabled:cursor-not-allowed`}
                     >
-                      <option value="">Select time slot</option>
-                      {timeSlots.map(time => (
-                        <option key={time} value={time}>{time}</option>
-                      ))}
+                      <option value="">
+                        {!formData.date 
+                          ? "Select date first" 
+                          : isSunday(formData.date) 
+                            ? "Closed on Sundays" 
+                            : isDateFullyBooked(formData.date)
+                              ? "No slots available"
+                              : "Select time slot"
+                        }
+                      </option>
+                      {formData.date && !isSunday(formData.date) && !isDateFullyBooked(formData.date) && 
+                        getAvailableTimeSlots(formData.date).map(time => (
+                          <option key={time} value={time}>
+                            {time}
+                          </option>
+                        ))
+                      }
                     </select>
+                    {formErrors.time && (
+                      <p className="text-xs text-red-600 mt-1">
+                        {formErrors.time}
+                      </p>
+                    )}
+                    {!formErrors.time && formData.date && !isSunday(formData.date) && !isDateFullyBooked(formData.date) && formData.time && !isTimeSlotAvailable(formData.date, formData.time) && (
+                      <p className="text-xs text-red-600 mt-1">
+                        ⚠️ This time slot is no longer available. Please select a different time.
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Service Selection Section */}
-              <div className="bg-gray-50 dark:bg-slate-800 rounded-2xl p-6">
+              <div className="bg-gray-50 rounded-2xl p-6">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center">
-                    <Briefcase className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                  <div className="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                    <Briefcase className="w-5 h-5 text-purple-600" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Service Information</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">What can we help you with?</p>
+                    <h3 className="text-lg font-semibold text-gray-900">Service Information</h3>
+                    <p className="text-sm text-gray-600">What can we help you with?</p>
                   </div>
                 </div>
                 
                 <div className="space-y-6">
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       <Briefcase className="w-4 h-4 inline mr-2 text-purple-600" />
                       Service Needed *
                     </label>
@@ -514,17 +842,22 @@ const HeroSection = () => {
                       value={formData.service}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-slate-700 dark:text-white transition-all duration-200 hover:border-purple-300"
+                      className={`w-full px-4 py-3 border ${formErrors.service ? 'border-red-500 ring-1 ring-red-500' : 'border-gray-300'} rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-purple-300`}
                     >
                       <option value="">Select a service</option>
                       {serviceOptions.map(service => (
                         <option key={service} value={service}>{service}</option>
                       ))}
                     </select>
+                    {formErrors.service && (
+                      <p className="text-xs text-red-600 mt-1">
+                        {formErrors.service}
+                      </p>
+                    )}
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label className="block text-sm font-medium text-gray-700">
                       <MessageSquare className="w-4 h-4 inline mr-2 text-purple-600" />
                       Project Details
                     </label>
@@ -533,7 +866,7 @@ const HeroSection = () => {
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={4}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-slate-700 dark:text-white resize-none transition-all duration-200 hover:border-purple-300"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none transition-all duration-200 hover:border-purple-300"
                       placeholder="Tell us about your project requirements, goals, timeline, and any specific needs. The more details you provide, the better we can help you."
                     />
                   </div>
@@ -545,23 +878,33 @@ const HeroSection = () => {
                 <button
                   type="button"
                   onClick={() => setIsBookingModalOpen(false)}
-                  className="flex-1 px-8 py-4 border-2 border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-slate-800 transition-all duration-200 font-medium"
+                  className="flex-1 px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 font-medium"
                 >
                   Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleSubmit}
-                  className="flex-1 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                  disabled={isSubmitting || !formData.date || isSunday(formData.date) || isDateFullyBooked(formData.date) || !isTimeSlotAvailable(formData.date, formData.time)}
+                  className="flex-1 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                 >
-                  <CheckCircle className="w-5 h-5" />
-                  Book Consultation
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                      Booking Consultation...
+                    </div>
+                  ) : (
+                    <>
+                      <CheckCircle className="w-5 h-5" />
+                      Book Consultation
+                    </>
+                  )}
                 </button>
               </div>
               
               {/* Footer Note */}
-              <div className="text-center pt-4 border-t border-gray-200 dark:border-slate-700">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-center pt-4 border-t border-gray-200">
+                <p className="text-sm text-gray-600">
                   <Shield className="w-4 h-4 inline mr-1" />
                   Your information is secure and will only be used to contact you about your consultation.
                 </p>

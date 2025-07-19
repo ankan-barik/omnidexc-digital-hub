@@ -97,23 +97,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Newsletter Signup */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6 text-gray-200">SIGN UP FOR EMAILS</h3>
-            <p className="text-gray-300 mb-4">
-              Get first dibs on new arrivals and advance notice on everything we do.
-            </p>
-            <div className="flex gap-3">
-              <input
-                type="email"
-                placeholder="Email"
-                className="flex-1 px-4 py-3 rounded bg-gray-800 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:border-red-500 focus:ring-2 focus:ring-red-500/20 transition-all"
-              />
-              <button className="px-6 py-3 bg-red-500 text-white rounded font-semibold hover:bg-red-600 transition-all">
-                Sign Me Up
-              </button>
-            </div>
-          </div>
+        
         </div>
 
         {/* Legal Links as Round Buttons */}

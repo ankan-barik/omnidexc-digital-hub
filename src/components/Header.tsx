@@ -124,7 +124,7 @@ const Header = () => {
           {/* Desktop Navigation - Centered Smaller Rounded Pill Container */}
           <div className="hidden md:flex items-center justify-center flex-1">
             <div className="bg-gray-100/80 backdrop-blur-md rounded-full px-1.5 py-1.5 border border-gray-200/50 shadow-sm">
-              <div className="flex items-center space-x-0.5">
+              <div className="flex items-center space-x-1.5">
                 <button
                   onClick={() => scrollToSection('hero')}
                   className={getNavItemClasses('hero')}

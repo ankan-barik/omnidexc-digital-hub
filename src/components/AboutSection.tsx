@@ -89,7 +89,7 @@ const AboutSection = () => {
               </div>
               <div className="flex items-center space-x-3 p-3 rounded-lg bg-white/60 backdrop-blur-sm border border-purple-100">
                 <div className="w-3 h-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full shadow-lg shadow-purple-500/50"></div>
-                <span className="text-gray-700 font-medium">Proven track record with 100+ successful projects</span>
+                <span className="text-gray-700 font-medium">Proven track record with 10+ successful projects</span>
               </div>
               <div className="flex items-center space-x-3 p-3 rounded-lg bg-white/60 backdrop-blur-sm border border-cyan-100">
                 <div className="w-3 h-3 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full shadow-lg shadow-cyan-500/50"></div>
@@ -101,13 +101,13 @@ const AboutSection = () => {
             <div className="grid grid-cols-3 gap-6 pt-6">
               <div className="text-center p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
                 <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
-                  100+
+                  10+
                 </div>
                 <div className="text-sm text-gray-600 font-semibold tracking-wide">Projects Completed</div>
               </div>
               <div className="text-center p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-purple-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
                 <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-300">
-                  50+
+                  20+
                 </div>
                 <div className="text-sm text-gray-600 font-semibold tracking-wide">Happy Clients</div>
               </div>

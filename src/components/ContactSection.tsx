@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Mail, Phone, MapPin, Send, CheckCircle, MessageCircle, Video, Smartphone, Users } from 'lucide-react';
 
 const ContactSection = () => {
@@ -11,6 +11,18 @@ const ContactSection = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  // Auto-hide success message after 5 seconds
+  useEffect(() => {
+    if (submitStatus === 'success') {
+      const timer = setTimeout(() => {
+        setSubmitStatus(null);
+      }, 5000); // 5 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [submitStatus]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -20,38 +32,67 @@ const ContactSection = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus(null);
 
-    setTimeout(() => {
-      alert("Message Sent Successfully! We'll get back to you within 24 hours.");
-      setFormData({
-        name: '',
-        email: '',
-        company: '',
-        service: '',
-        budget: '',
-        message: ''
+    try {
+      // Create FormData object
+      const formDataToSend = new FormData();
+      formDataToSend.append("access_key", "e25fc0ac-254d-4787-af9c-23adf837d81c");
+      formDataToSend.append("name", formData.name);
+      formDataToSend.append("email", formData.email);
+      formDataToSend.append("company", formData.company || 'Not specified');
+      formDataToSend.append("service", formData.service);
+      formDataToSend.append("budget", formData.budget || 'Not specified');
+      formDataToSend.append("message", formData.message);
+      formDataToSend.append("to", "business.omnidexc@gmail.com");
+
+      // Send email using Web3Forms
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formDataToSend
       });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          company: '',
+          service: '',
+          budget: '',
+          message: ''
+        });
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const services = [
     'Web Development',
     'App Development', 
     'UI/UX Design',
-    'Video Production',
+    'Video Editing & Production',
     'Social Media Management',
     'Branding Solutions',
     'Full Digital Package'
   ];
 
   const budgetRanges = [
-    '$5,000 - $10,000',
-    '$10,000 - $25,000',
-    '$25,000 - $50,000',
-    '$50,000 - $100,000',
-    '$100,000+'
-  ];
+  '₹5,000 - ₹10,000',
+  '₹10,000 - ₹25,000',
+  '₹25,000 - ₹50,000',
+  '₹50,000 - ₹100,000',
+  '₹100,000+'
+];
+
 
   // SVG Illustration Component
   const ContactIllustration = () => (
@@ -314,7 +355,7 @@ const ContactSection = () => {
                   'Free initial consultation',
                   'Transparent pricing and timeline',
                   '24/7 dedicated support',
-                  'Money-back guarantee',
+                  
                   'Ongoing maintenance included'
                 ].map((benefit, index) => (
                   <li key={index} className="flex items-center space-x-3">
@@ -338,7 +379,7 @@ const ContactSection = () => {
               <p className="text-gray-600">Let's create something amazing together</p>
             </div>
 
-            <div className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name and Email */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
@@ -447,8 +488,7 @@ const ContactSection = () => {
 
               {/* Submit Button */}
               <button
-                type="button"
-                onClick={handleSubmit}
+                type="submit"
                 disabled={isSubmitting}
                 className="w-full px-8 py-4 bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
@@ -464,7 +504,45 @@ const ContactSection = () => {
                   </div>
                 )}
               </button>
-            </div>
+            </form>
+
+            {/* Status Messages - Below Form */}
+            {submitStatus === 'success' && (
+              <div className="mt-6 p-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl shadow-lg animate-fade-in">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full mb-4">
+                    <CheckCircle className="w-6 h-6 text-white" />
+                  </div>
+                  <h4 className="text-lg font-semibold text-green-900 mb-2">Thank You!</h4>
+                  <p className="text-green-800 mb-2">Your message has been sent successfully!</p>
+                  <p className="text-sm text-green-700">
+                    We've received your project details and our team will review your requirements. 
+                    Expect a personalized response within 24 hours. We're excited to help bring your vision to life! 🚀
+                  </p>
+                  <div className="mt-4 text-xs text-green-600">
+                    This message will disappear automatically in a few seconds...
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {submitStatus === 'error' && (
+              <div className="mt-6 p-6 bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 rounded-2xl shadow-lg animate-fade-in">
+                <div className="text-center">
+                  <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-red-500 to-rose-500 rounded-full mb-4">
+                    <div className="w-6 h-6 text-white font-bold">⚠️</div>
+                  </div>
+                  <h4 className="text-lg font-semibold text-red-900 mb-2">Oops! Something went wrong</h4>
+                  <p className="text-red-800 mb-2">We couldn't send your message at the moment.</p>
+                  <p className="text-sm text-red-700">
+                    Please try again or reach us directly at{' '}
+                    <a href="mailto:business.omnidexc@gmail.com" className="underline font-medium">
+                      business.omnidexc@gmail.com
+                    </a>
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
