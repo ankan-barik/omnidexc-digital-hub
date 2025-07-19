@@ -361,7 +361,7 @@ const HeroSection = () => {
       setIsSubmitting(false);
     }
   };
-  
+
   const serviceOptions = [
     'Web Development',
     'App Development', 
@@ -417,7 +417,7 @@ const HeroSection = () => {
             </h1>
             
             {/* Subheading */}
-            <p className="text-xl md:text-xl text-gray-500 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               We transform your ideas into powerful digital solutions. From web development to branding, 
               we're your complete digital partner for success in the modern world.
             </p>
