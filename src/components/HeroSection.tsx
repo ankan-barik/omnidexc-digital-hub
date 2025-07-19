@@ -1,5 +1,6 @@
 import { ArrowRight, PlayCircle, X, Calendar, Clock, Users, MessageSquare, Mail, Phone, Briefcase, CheckCircle, Star, Shield, Zap, Sparkles, Code, Palette, Video, Share2, Award } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { ThemeToggle } from './ThemeToggle';
 
 const HeroSection = () => {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
@@ -382,7 +383,12 @@ const HeroSection = () => {
 
   return (
     <>
-      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+        {/* Theme Toggle - Top Right */}
+        <div className="absolute top-6 right-6 z-20">
+          <ThemeToggle />
+        </div>
+
         {/* Background Pattern */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/5" />
