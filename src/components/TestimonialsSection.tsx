@@ -26,15 +26,15 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800 dark:text-white">
             Voices of  <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">Satisfaction</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
             Don't just take our word for it. Here's what our satisfied clients have to say about working with OmniDexC.
           </p>
         </div>
@@ -81,11 +81,11 @@ const TestimonialsSection = () => {
 
         {/* Call to Action */}
         <div className="text-center mt-16">
-          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-cyan-50 rounded-2xl p-8 max-w-4xl mx-auto border border-gray-100">
-            <h3 className="text-2xl font-bold text-gray-800 mb-4">
+          <div className="bg-gradient-to-r from-blue-50 via-purple-50 to-cyan-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-2xl p-8 max-w-4xl mx-auto border border-gray-100 dark:border-gray-600">
+            <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
               Ready to Join Our Success Stories?
             </h3>
-            <p className="text-gray-600 mb-6">
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
               Let's work together to create something amazing for your business.
             </p>
             <button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl">

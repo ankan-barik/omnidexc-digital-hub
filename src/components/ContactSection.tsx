@@ -290,18 +290,18 @@ const ContactSection = () => {
   );
 
   return (
-    <section id="contact" className="py-20 bg-white">
+    <section id="contact" className="py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full mb-6">
             <MessageCircle className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
             Let's <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-teal-600 bg-clip-text text-transparent">Connect</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
             Ready to transform your digital presence? Get in touch with us for a free consultation 
             and let's discuss how we can bring your vision to life.
           </p>
@@ -311,7 +311,7 @@ const ContactSection = () => {
           {/* Left Side - Illustration and Contact Info */}
           <div className="space-y-8">
             {/* Professional Illustration with Sophisticated Animation */}
-            <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 rounded-3xl p-8 overflow-hidden border border-blue-100">
+            <div className="relative bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-3xl p-8 overflow-hidden border border-blue-100 dark:border-gray-600">
               {/* Subtle Professional Background Pattern */}
               <div className="absolute inset-0 opacity-5">
                 <div className="absolute top-4 left-4 w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full animate-pulse" style={{animationDuration: '4s'}}></div>
@@ -323,32 +323,32 @@ const ContactSection = () => {
 
             {/* Contact Information Cards */}
             <div className="space-y-6">
-              <div className="flex items-center space-x-4 p-6 bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+              <div className="flex items-center space-x-4 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-600 hover:shadow-xl transition-all duration-300 group">
                 <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Mail className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900">Email Us</h4>
-                  <p className="text-gray-600">business.omnidexc@gmail.com</p>
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Email Us</h4>
+                  <p className="text-gray-600 dark:text-gray-300">business.omnidexc@gmail.com</p>
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4 p-6 bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+              <div className="flex items-center space-x-4 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-600 hover:shadow-xl transition-all duration-300 group">
                 <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                   <Phone className="w-7 h-7 text-white" />
                 </div>
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-900">Call Us</h4>
-                  <p className="text-gray-600">+91 9122372108</p>
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Call Us</h4>
+                  <p className="text-gray-600 dark:text-gray-300">+91 9122372108</p>
                 </div>
               </div>
             </div>
 
             {/* Why Choose Us */}
-            <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 border border-gray-100">
+            <div className="bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-800 dark:to-gray-700 rounded-2xl p-8 border border-gray-100 dark:border-gray-600">
               <div className="flex items-center mb-6">
                 <Users className="w-8 h-8 text-blue-600 mr-4" />
-                <h4 className="text-xl font-semibold text-gray-900">Why Choose OmniDexC?</h4>
+                <h4 className="text-xl font-semibold text-gray-900 dark:text-white">Why Choose OmniDexC?</h4>
               </div>
               <ul className="space-y-4">
                 {[
@@ -362,7 +362,7 @@ const ContactSection = () => {
                     <div className="w-6 h-6 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
                       <CheckCircle className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-gray-700">{benefit}</span>
+                    <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
                   </li>
                 ))}
               </ul>
@@ -370,20 +370,20 @@ const ContactSection = () => {
           </div>
 
           {/* Right Side - Contact Form */}
-          <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-8 lg:p-10">
+          <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-100 dark:border-gray-600 p-8 lg:p-10">
             <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-teal-500 to-blue-600 rounded-full mb-4">
                 <Send className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">Start Your Project</h3>
-              <p className="text-gray-600">Let's create something amazing together</p>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Start Your Project</h3>
+              <p className="text-gray-600 dark:text-gray-300">Let's create something amazing together</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name and Email */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Full Name *
                   </label>
                   <input
@@ -398,7 +398,7 @@ const ContactSection = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Email Address *
                   </label>
                   <input
@@ -416,7 +416,7 @@ const ContactSection = () => {
 
               {/* Company */}
               <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="company" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Company/Organization
                 </label>
                 <input
@@ -433,7 +433,7 @@ const ContactSection = () => {
               {/* Service and Budget */}
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="service" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Service Needed *
                   </label>
                   <select
@@ -451,7 +451,7 @@ const ContactSection = () => {
                   </select>
                 </div>
                 <div>
-                  <label htmlFor="budget" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="budget" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Project Budget
                   </label>
                   <select
@@ -471,7 +471,7 @@ const ContactSection = () => {
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Project Details *
                 </label>
                 <textarea

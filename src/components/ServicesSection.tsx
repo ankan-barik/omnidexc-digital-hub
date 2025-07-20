@@ -88,15 +88,15 @@ const ServicesSection = () => {
   const visibleServices = services.slice(currentIndex * 2, currentIndex * 2 + 2);
 
   return (
-    <section id="services" className="py-20 bg-gray-50">
+    <section id="services" className="py-20 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-6">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800 dark:text-white">
            Our <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">Services</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
             We offer comprehensive digital solutions tailored to meet your unique business needs 
             and drive measurable results across all channels.
           </p>
@@ -109,14 +109,14 @@ const ServicesSection = () => {
             onClick={prevSlide}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-300"
           >
-            <ChevronLeft className="w-6 h-6 text-gray-600" />
+            <ChevronLeft className="w-6 h-6 text-gray-600 dark:text-gray-300" />
           </button>
           
           <button
             onClick={nextSlide}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-300"
           >
-            <ChevronRight className="w-6 h-6 text-gray-600" />
+            <ChevronRight className="w-6 h-6 text-gray-600 dark:text-gray-300" />
           </button>
 
           {/* Services Cards */}
@@ -129,9 +129,9 @@ const ServicesSection = () => {
                 <div key={slideIndex} className="min-w-full">
                   <div className="grid md:grid-cols-2 gap-8">
                     {services.slice(slideIndex * 2, slideIndex * 2 + 2).map((service, index) => (
-                      <div key={index} className="relative bg-white rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group border-0 hover:border-gray-100 transform hover:-translate-y-2">
+                      <div key={index} className="relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group border-0 hover:border-gray-100 dark:hover:border-gray-600 transform hover:-translate-y-2">
                         {/* Background Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         
                         {/* Decorative Elements */}
                         <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
@@ -158,20 +158,20 @@ const ServicesSection = () => {
                         <div className="relative p-8 z-10">
                           {/* Content */}
                           <div className="flex items-center justify-between mb-4">
-                            <h3 className={`text-2xl font-bold ${service.titleColor} group-hover:text-gray-800 transition-colors duration-300`}>
+                            <h3 className={`text-2xl font-bold ${service.titleColor} group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-300`}>
                               {service.title}
                             </h3>
                             <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full group-hover:w-3 group-hover:h-3 transition-all duration-300"></div>
                           </div>
                           
-                          <p className="text-gray-600 mb-6 leading-relaxed font-medium group-hover:text-gray-700 transition-colors duration-300">
+                          <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed font-medium group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">
                             {service.description}
                           </p>
                           
                           {/* Features with enhanced styling */}
                           <div className="space-y-3 mb-8">
                             {service.features.map((feature, featureIndex) => (
-                              <div key={featureIndex} className="flex items-center text-sm text-gray-700 group-hover:text-gray-800 transition-colors duration-300">
+                              <div key={featureIndex} className="flex items-center text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-300">
                                 <div className="relative mr-3">
                                   <div className={`w-2 h-2 ${service.accentColor} rounded-full`} />
                                   <div className={`absolute inset-0 w-2 h-2 ${service.accentColor} rounded-full animate-ping opacity-20`} />
@@ -232,8 +232,8 @@ const ServicesSection = () => {
         {/* Process Section */}
         <div className="mt-20">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Our Process</h3>
-            <p className="text-lg text-gray-600">
+            <h3 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">Our Process</h3>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
               We follow a proven methodology to ensure successful project delivery
             </p>
           </div>
@@ -249,8 +249,8 @@ const ServicesSection = () => {
                 <div className={`w-16 h-16 bg-gradient-to-br ${phase.color} rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   {phase.step}
                 </div>
-                <h4 className="text-xl font-semibold text-gray-800 mb-2">{phase.title}</h4>
-                <p className="text-gray-600 text-sm font-medium">{phase.description}</p>
+                <h4 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">{phase.title}</h4>
+                <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">{phase.description}</p>
               </div>
             ))}
           </div>
