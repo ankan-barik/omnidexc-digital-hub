@@ -430,7 +430,7 @@ const HeroSection = () => {
                 <span className="block relative group">
                   {/* Typewriter OmniDexC text - Responsive sizing */}
                   <span 
-                    className="inline-block text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 dark:from-red-400 dark:via-pink-400 dark:to-violet-400 text-transparent bg-clip-text relative mt-10 md:mt-6 px-2"
+                    className="inline-block text-5xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 dark:from-red-400 dark:via-pink-400 dark:to-violet-400 text-transparent bg-clip-text relative mt-10 md:mt-6 px-2"
                     style={{
                       fontFamily: 'system-ui, -apple-system, sans-serif',
                       letterSpacing: '0.05em',
