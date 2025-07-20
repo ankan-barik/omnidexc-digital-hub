@@ -16,6 +16,14 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   ];
 
   useEffect(() => {
+    // Check if we should skip the loading screen
+    const skipLoading = sessionStorage.getItem('skipLoadingScreen');
+    if (skipLoading === 'true') {
+      sessionStorage.removeItem('skipLoadingScreen'); // Clean up
+      onComplete(); // Skip loading immediately
+      return;
+    }
+
     // Show logo immediately
     setLogoVisible(true);
 
@@ -36,6 +44,12 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
 
     return () => clearInterval(interval);
   }, [onComplete]);
+
+  // Don't render anything if we're skipping
+  const skipLoading = sessionStorage.getItem('skipLoadingScreen');
+  if (skipLoading === 'true') {
+    return null;
+  }
 
   return (
     <AnimatePresence>

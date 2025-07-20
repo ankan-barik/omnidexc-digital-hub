@@ -1,9 +1,23 @@
-import { ArrowLeft, Shield, AlertTriangle, Info, FileText, Users, Globe } from 'lucide-react';
+import { ArrowLeft, Shield, AlertTriangle, Info, FileText, Users, Globe, Smartphone, Code, Settings, TrendingUp, Video, Palette } from 'lucide-react';
 import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Disclaimer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleBackClick = () => {
-    window.history.back();
+    // Set a flag in sessionStorage to skip loading screen
+    sessionStorage.setItem('skipLoadingScreen', 'true');
+    // Then navigate back
+    navigate('/', { replace: true });
+    // Scroll to footer after navigation
+    setTimeout(() => {
+      const footer = document.querySelector('footer');
+      if (footer) {
+        footer.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   // Force scroll to top when component loads
@@ -32,8 +46,8 @@ const Disclaimer = () => {
             onClick={handleBackClick}
             className="inline-flex items-center space-x-3 text-white hover:text-blue-200 transition-all duration-300 hover:scale-105"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">Back to Home</span>
+           
+            <span className="font-medium">👈 Back</span>
           </button>
         </div>
       </header>
@@ -59,26 +73,36 @@ const Disclaimer = () => {
             <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
               Our Digital Services
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200">
-                <Globe className="w-8 h-8 text-blue-600 mb-3" />
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Web Development</h3>
-                <p className="text-gray-600 text-sm">Custom websites & web applications</p>
+                <Code className="w-10 h-10 text-blue-600 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Web & App Development</h3>
+                <p className="text-gray-600 text-sm">Custom websites, web applications, and mobile apps</p>
               </div>
               <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl border border-purple-200">
-                <FileText className="w-8 h-8 text-purple-600 mb-3" />
+                <Settings className="w-10 h-10 text-purple-600 mb-4" />
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">UI/UX Design</h3>
-                <p className="text-gray-600 text-sm">User interface & experience design</p>
+                <p className="text-gray-600 text-sm">User interface and experience design services</p>
               </div>
               <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border border-green-200">
-                <Users className="w-8 h-8 text-green-600 mb-3" />
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Social Media</h3>
-                <p className="text-gray-600 text-sm">Marketing & consultancy services</p>
+                <Video className="w-10 h-10 text-green-600 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Video Production</h3>
+                <p className="text-gray-600 text-sm">Video editing and multimedia production</p>
               </div>
               <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-2xl border border-orange-200">
-                <AlertTriangle className="w-8 h-8 text-orange-600 mb-3" />
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">Video Editing</h3>
-                <p className="text-gray-600 text-sm">Professional video production</p>
+                <TrendingUp className="w-10 h-10 text-orange-600 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Social Media</h3>
+                <p className="text-gray-600 text-sm">Consulting, management, and marketing</p>
+              </div>
+              <div className="bg-gradient-to-br from-pink-50 to-pink-100 p-6 rounded-2xl border border-pink-200">
+                <Palette className="w-10 h-10 text-pink-600 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Branding Solutions</h3>
+                <p className="text-gray-600 text-sm">Logo design and brand identity development</p>
+              </div>
+              <div className="bg-gradient-to-br from-cyan-50 to-cyan-100 p-6 rounded-2xl border border-cyan-200">
+                <Smartphone className="w-10 h-10 text-cyan-600 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Mobile Apps</h3>
+                <p className="text-gray-600 text-sm">Android and iOS application development</p>
               </div>
             </div>
           </div>

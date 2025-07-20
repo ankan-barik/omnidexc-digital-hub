@@ -5,9 +5,21 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { label: 'Privacy Policy', path: '/privacy-policy' },
-    { label: 'Terms of Service', path: '/terms-of-service' },
-    { label: 'Disclaimer', path: '/disclaimer' }
+    { 
+      label: 'Privacy Policy', 
+      path: '/privacy-policy',
+      state: { from: 'footer' }
+    },
+    { 
+      label: 'Terms of Service', 
+      path: '/terms-of-service',
+      state: { from: 'footer' }
+    },
+    { 
+      label: 'Disclaimer', 
+      path: '/disclaimer',
+      state: { from: 'footer' }
+    }
   ];
 
   return (
@@ -107,6 +119,7 @@ const Footer = () => {
               <Link
                 key={index}
                 to={link.path}
+                state={link.state}
                 className="px-4 py-2 bg-gray-800 border border-gray-600 text-gray-300 rounded-full font-medium text-sm hover:bg-gray-700 hover:border-gray-500 hover:text-white transition-all duration-300 transform hover:scale-105"
               >
                 {link.label}

@@ -1,9 +1,23 @@
 import { ArrowLeft, Shield, Eye, Lock, Users, Mail, Phone, Globe, Palette, Video, Code, Smartphone, Settings, Image, TrendingUp } from "lucide-react";
 import { useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const PrivacyPolicy = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const handleBackClick = () => {
-    window.history.back();
+    // Set a flag in sessionStorage to skip loading screen
+    sessionStorage.setItem('skipLoadingScreen', 'true');
+    // Then navigate back
+    navigate('/', { replace: true });
+    // Scroll to footer after navigation
+    setTimeout(() => {
+      const footer = document.querySelector('footer');
+      if (footer) {
+        footer.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
   };
 
   // Multiple methods to ensure page starts from top
@@ -37,8 +51,8 @@ const PrivacyPolicy = () => {
             onClick={handleBackClick}
             className="inline-flex items-center space-x-3 text-white hover:text-purple-200 transition-all duration-300 hover:scale-105"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">Back to Home</span>
+            
+            <span className="font-medium">👈 Back </span>
           </button>
         </div>
       </header>

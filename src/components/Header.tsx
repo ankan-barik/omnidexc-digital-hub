@@ -285,7 +285,7 @@ const Header = () => {
                     : 'bg-green-500 text-white hover:bg-green-400'
                 }`}
                 style={{
-                  animation: 'pulse-scale 1s ease-in-out infinite'
+                  animation: 'pulse-scale  ease-in-out infinite'
                 }}
               >
                 <span className="relative z-10">Contact Us</span>
