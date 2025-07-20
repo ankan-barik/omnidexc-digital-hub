@@ -384,8 +384,8 @@ const HeroSection = () => {
   return (
     <>
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-        {/* Theme Toggle - Top Right */}
-        <div className="absolute top-6 right-6 z-50">
+        {/* Theme Toggle - Top Right - Fixed Position */}
+        <div className="fixed top-6 right-6 z-50">
           <ThemeToggle />
         </div>
 
