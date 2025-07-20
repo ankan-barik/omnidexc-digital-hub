@@ -385,13 +385,13 @@ const HeroSection = () => {
     <>
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
         {/* Theme Toggle - Top Right */}
-        <div className="absolute top-4 right-4 z-50">
+        <div className="absolute top-6 right-6 z-50">
           <ThemeToggle />
         </div>
 
         {/* Background Pattern */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-background via-background/95 to-primary/5" />
+          <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/95 to-primary/5 dark:from-background/80 dark:via-background/90 dark:to-primary/10" />
         </div>
 
         {/* Content */}
@@ -404,7 +404,7 @@ const HeroSection = () => {
                 <span className="block relative group">
                   {/* Typewriter OmniDexC text */}
                   <span 
-                    className="inline-block text-7xl md:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 text-transparent bg-clip-text relative mt-6"
+                    className="inline-block text-7xl md:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 dark:from-red-400 dark:via-pink-400 dark:to-violet-400 text-transparent bg-clip-text relative mt-6"
                     style={{
                       fontFamily: 'system-ui, -apple-system, sans-serif',
                       letterSpacing: '0.05em',
@@ -415,7 +415,7 @@ const HeroSection = () => {
                   </span>
                   
                   {/* Tagline */}
-                  <div className="mt-4 text-sm md:text-base font-bold text-black tracking-widest uppercase opacity-80">
+                  <div className="mt-4 text-sm md:text-base font-bold text-foreground/80 tracking-widest uppercase opacity-80">
                     Digital Excellence · Creative Solutions
                   </div>
                 </span>
@@ -423,7 +423,7 @@ const HeroSection = () => {
             </h1>
             
             {/* Subheading */}
-            <p className="text-xl md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
               We transform your ideas into powerful digital solutions. From web development to branding, 
               we're your complete digital partner for success in the modern world.
             </p>
@@ -433,79 +433,79 @@ const HeroSection = () => {
                 { 
                   name: 'Web Development', 
                   icon: Code, 
-                  iconColor: 'text-blue-400',
-                  bgColor: 'bg-blue-50',
-                  borderColor: 'border-blue-200',
-                  hoverBg: 'hover:bg-blue-100',
-                  hoverBorder: 'hover:border-blue-400',
-                  hoverText: 'hover:text-blue-700',
-                  iconBg: 'bg-blue-100',
-                  hoverIconBg: 'group-hover:bg-blue-200'
+                  iconColor: 'text-blue-500',
+                  bgColor: 'bg-blue-50 dark:bg-blue-950',
+                  borderColor: 'border-blue-200 dark:border-blue-800',
+                  hoverBg: 'hover:bg-blue-100 dark:hover:bg-blue-900',
+                  hoverBorder: 'hover:border-blue-400 dark:hover:border-blue-600',
+                  hoverText: 'hover:text-blue-700 dark:hover:text-blue-300',
+                  iconBg: 'bg-blue-100 dark:bg-blue-900',
+                  hoverIconBg: 'group-hover:bg-blue-200 dark:group-hover:bg-blue-800'
                 },
                 { 
                   name: 'App Development', 
                   icon: Sparkles, 
-                  iconColor: 'text-purple-400',
-                  bgColor: 'bg-purple-50',
-                  borderColor: 'border-purple-200',
-                  hoverBg: 'hover:bg-purple-100',
-                  hoverBorder: 'hover:border-purple-400',
-                  hoverText: 'hover:text-purple-700',
-                  iconBg: 'bg-purple-100',
-                  hoverIconBg: 'group-hover:bg-purple-200'
+                  iconColor: 'text-purple-500',
+                  bgColor: 'bg-purple-50 dark:bg-purple-950',
+                  borderColor: 'border-purple-200 dark:border-purple-800',
+                  hoverBg: 'hover:bg-purple-100 dark:hover:bg-purple-900',
+                  hoverBorder: 'hover:border-purple-400 dark:hover:border-purple-600',
+                  hoverText: 'hover:text-purple-700 dark:hover:text-purple-300',
+                  iconBg: 'bg-purple-100 dark:bg-purple-900',
+                  hoverIconBg: 'group-hover:bg-purple-200 dark:group-hover:bg-purple-800'
                 },
                 { 
                   name: 'UI/UX Design', 
                   icon: Palette, 
-                  iconColor: 'text-pink-400',
-                  bgColor: 'bg-pink-50',
-                  borderColor: 'border-pink-200',
-                  hoverBg: 'hover:bg-pink-100',
-                  hoverBorder: 'hover:border-pink-400',
-                  hoverText: 'hover:text-pink-700',
-                  iconBg: 'bg-pink-100',
-                  hoverIconBg: 'group-hover:bg-pink-200'
+                  iconColor: 'text-pink-500',
+                  bgColor: 'bg-pink-50 dark:bg-pink-950',
+                  borderColor: 'border-pink-200 dark:border-pink-800',
+                  hoverBg: 'hover:bg-pink-100 dark:hover:bg-pink-900',
+                  hoverBorder: 'hover:border-pink-400 dark:hover:border-pink-600',
+                  hoverText: 'hover:text-pink-700 dark:hover:text-pink-300',
+                  iconBg: 'bg-pink-100 dark:bg-pink-900',
+                  hoverIconBg: 'group-hover:bg-pink-200 dark:group-hover:bg-pink-800'
                 },
                 { 
                   name: 'Video Production', 
                   icon: Video, 
-                  iconColor: 'text-red-400',
-                  bgColor: 'bg-red-50',
-                  borderColor: 'border-red-200',
-                  hoverBg: 'hover:bg-red-100',
-                  hoverBorder: 'hover:border-red-400',
-                  hoverText: 'hover:text-red-700',
-                  iconBg: 'bg-red-100',
-                  hoverIconBg: 'group-hover:bg-red-200'
+                  iconColor: 'text-red-500',
+                  bgColor: 'bg-red-50 dark:bg-red-950',
+                  borderColor: 'border-red-200 dark:border-red-800',
+                  hoverBg: 'hover:bg-red-100 dark:hover:bg-red-900',
+                  hoverBorder: 'hover:border-red-400 dark:hover:border-red-600',
+                  hoverText: 'hover:text-red-700 dark:hover:text-red-300',
+                  iconBg: 'bg-red-100 dark:bg-red-900',
+                  hoverIconBg: 'group-hover:bg-red-200 dark:group-hover:bg-red-800'
                 },
                 { 
                   name: 'Social Media', 
                   icon: Share2, 
-                  iconColor: 'text-green-400',
-                  bgColor: 'bg-green-50',
-                  borderColor: 'border-green-200',
-                  hoverBg: 'hover:bg-green-100',
-                  hoverBorder: 'hover:border-green-400',
-                  hoverText: 'hover:text-green-700',
-                  iconBg: 'bg-green-100',
-                  hoverIconBg: 'group-hover:bg-green-200'
+                  iconColor: 'text-green-500',
+                  bgColor: 'bg-green-50 dark:bg-green-950',
+                  borderColor: 'border-green-200 dark:border-green-800',
+                  hoverBg: 'hover:bg-green-100 dark:hover:bg-green-900',
+                  hoverBorder: 'hover:border-green-400 dark:hover:border-green-600',
+                  hoverText: 'hover:text-green-700 dark:hover:text-green-300',
+                  iconBg: 'bg-green-100 dark:bg-green-900',
+                  hoverIconBg: 'group-hover:bg-green-200 dark:group-hover:bg-green-800'
                 },
                 { 
                   name: 'Branding', 
                   icon: Award, 
-                  iconColor: 'text-yellow-400',
-                  bgColor: 'bg-yellow-50',
-                  borderColor: 'border-yellow-200',
-                  hoverBg: 'hover:bg-yellow-100',
-                  hoverBorder: 'hover:border-yellow-400',
-                  hoverText: 'hover:text-yellow-700',
-                  iconBg: 'bg-yellow-100',
-                  hoverIconBg: 'group-hover:bg-yellow-200'
+                  iconColor: 'text-yellow-500',
+                  bgColor: 'bg-yellow-50 dark:bg-yellow-950',
+                  borderColor: 'border-yellow-200 dark:border-yellow-800',
+                  hoverBg: 'hover:bg-yellow-100 dark:hover:bg-yellow-900',
+                  hoverBorder: 'hover:border-yellow-400 dark:hover:border-yellow-600',
+                  hoverText: 'hover:text-yellow-700 dark:hover:text-yellow-300',
+                  iconBg: 'bg-yellow-100 dark:bg-yellow-900',
+                  hoverIconBg: 'group-hover:bg-yellow-200 dark:group-hover:bg-yellow-800'
                 }
               ].map((service, index) => (
                 <div 
                   key={service.name}
-                  className={`group relative px-4 py-2 ${service.bgColor} backdrop-blur-sm border ${service.borderColor} rounded-2xl text-xs font-semibold text-gray-700 ${service.hoverBg} ${service.hoverBorder} transition-all duration-500 cursor-pointer transform hover:scale-105 hover:shadow-lg`}
+                  className={`group relative px-4 py-2 ${service.bgColor} backdrop-blur-sm border ${service.borderColor} rounded-2xl text-xs font-semibold text-foreground ${service.hoverBg} ${service.hoverBorder} transition-all duration-500 cursor-pointer transform hover:scale-105 hover:shadow-lg`}
                 >
                   <div className="relative flex items-center gap-3">
                     <div className={`p-2 rounded-full ${service.iconBg} ${service.hoverIconBg} transition-all duration-300`}>
@@ -523,7 +523,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
               <button 
                 onClick={() => setIsBookingModalOpen(true)}
-                className="relative px-8 py-4 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-lg font-semibold hover:from-red-700 hover:to-pink-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group flex items-center overflow-hidden"
+                className="relative px-8 py-4 bg-gradient-to-r from-red-600 to-pink-600 dark:from-red-500 dark:to-pink-500 text-white rounded-lg font-semibold hover:from-red-700 hover:to-pink-700 dark:hover:from-red-600 dark:hover:to-pink-600 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl group flex items-center overflow-hidden"
               >
                 <span className="relative z-10">Start Your Project</span>
                 <ArrowRight className="relative z-10 w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -531,7 +531,7 @@ const HeroSection = () => {
               
               <button 
                 onClick={() => scrollToSection('services')}
-                className="px-8 py-4 bg-transparent border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-all duration-300 group flex items-center"
+                className="px-8 py-4 bg-transparent border-2 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400 rounded-lg font-semibold hover:bg-blue-600 dark:hover:bg-blue-500 hover:text-white transition-all duration-300 group flex items-center"
               >
                 <PlayCircle className="w-5 h-5 mr-2" />
                 Explore Services
@@ -540,25 +540,25 @@ const HeroSection = () => {
 
             {/* Trust Indicators */}
             <div className="mt-16">
-              <p className="text-sm text-gray-500 mb-8">Trusted by startups and enterprises worldwide</p>
+              <p className="text-sm text-muted-foreground mb-8">Trusted by startups and enterprises worldwide</p>
               <div className="grid grid-cols-3 gap-8 max-w-md mx-auto">
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 border border-blue-200 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <span className="text-2xl font-bold text-blue-600">10+</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">10+</span>
                   </div>
-                  <span className="text-sm font-medium text-gray-600">Projects Delivered</span>
+                  <span className="text-sm font-medium text-muted-foreground">Projects Delivered</span>
                 </div>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 border border-purple-200 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <span className="text-2xl font-bold text-purple-600">20+</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900 border border-purple-200 dark:border-purple-800 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">20+</span>
                   </div>
-                  <span className="text-sm font-medium text-gray-600">Happy Clients</span>
+                  <span className="text-sm font-medium text-muted-foreground">Happy Clients</span>
                 </div>
                 <div className="text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 border border-blue-200 rounded-xl flex items-center justify-center mx-auto mb-3">
-                    <span className="text-xl font-bold text-blue-600">24/7</span>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 border border-blue-200 dark:border-blue-800 rounded-xl flex items-center justify-center mx-auto mb-3">
+                    <span className="text-xl font-bold text-blue-600 dark:text-blue-400">24/7</span>
                   </div>
-                  <span className="text-sm font-medium text-gray-600">Expert Support</span>
+                  <span className="text-sm font-medium text-muted-foreground">Expert Support</span>
                 </div>
               </div>
             </div>
@@ -569,9 +569,9 @@ const HeroSection = () => {
       {/* Booking Modal */}
       {isBookingModalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl border border-gray-200">
+          <div className="bg-background rounded-3xl max-w-4xl w-full max-h-[95vh] overflow-y-auto shadow-2xl border border-border">
             {/* Modal Header */}
-            <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-8 rounded-t-3xl">
+            <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 p-8 rounded-t-3xl">
               <button
                 onClick={() => setIsBookingModalOpen(false)}
                 className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-full transition-colors"
