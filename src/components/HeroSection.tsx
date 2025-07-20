@@ -423,26 +423,29 @@ const HeroSection = () => {
         {/* Content */}
         <div className="relative z-10 container mx-auto px-6 text-center">
           <div className="max-w-4xl mx-auto">
-            {/* Main Heading */}
+           {/* Main Heading */}
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               <br />
               <span className="text-center">
                 <span className="block relative group">
-                  {/* Typewriter OmniDexC text */}
+                  {/* Typewriter OmniDexC text - Responsive sizing */}
                   <span 
-                    className="inline-block text-7xl md:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 dark:from-red-400 dark:via-pink-400 dark:to-violet-400 text-transparent bg-clip-text relative mt-6"
+                    className="inline-block text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-wider bg-gradient-to-r from-red-600 via-pink-600 to-violet-600 dark:from-red-400 dark:via-pink-400 dark:to-violet-400 text-transparent bg-clip-text relative mt-6 px-2"
                     style={{
                       fontFamily: 'system-ui, -apple-system, sans-serif',
                       letterSpacing: '0.05em',
-                      minHeight: '1em'
+                      minHeight: '1em',
+                      wordBreak: 'keep-all',
+                      whiteSpace: 'nowrap'
                     }}
                   >
                     {displayText}
                   </span>
                   
-                  {/* Tagline */}
-                  <div className="mt-4 text-sm md:text-base font-bold text-foreground/200 tracking-widest uppercase opacity-80">
-                    Digital Excellence · Creative Solutions
+                  {/* Tagline - Responsive */}
+                  <div className="mt-3 md:mt-4 text-xs sm:text-sm md:text-base font-bold text-foreground/200 tracking-widest uppercase opacity-80 px-2">
+                    <span className="hidden sm:inline">Digital Excellence · Creative Solutions</span>
+                    <span className="sm:hidden">Digital Excellence<br />Creative Solutions</span>
                   </div>
                 </span>
               </span>
