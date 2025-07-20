@@ -73,30 +73,41 @@ const ServicesSection = () => {
     }
   ];
 
+  // Responsive carousel logic
+  const getItemsPerPage = () => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 768) return 1; // Mobile: 1 card
+      if (window.innerWidth < 1024) return 1; // Tablet: 1 card
+      return 2; // Desktop: 2 cards
+    }
+    return 2;
+  };
+
+  const [itemsPerPage] = useState(getItemsPerPage());
+  const totalPages = Math.ceil(services.length / itemsPerPage);
+
   const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % Math.ceil(services.length / 2));
+    setCurrentIndex((prev) => (prev + 1) % totalPages);
   };
 
   const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + Math.ceil(services.length / 2)) % Math.ceil(services.length / 2));
+    setCurrentIndex((prev) => (prev - 1 + totalPages) % totalPages);
   };
 
   const goToSlide = (index) => {
     setCurrentIndex(index);
   };
 
-  const visibleServices = services.slice(currentIndex * 2, currentIndex * 2 + 2);
-
   return (
-    <section id="services" className="py-20 bg-gray-50 dark:bg-gray-900">
-      <div className="container mx-auto px-6">
+    <section id="services" className="py-12 sm:py-16 lg:py-20 bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-gray-800 dark:text-white">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 text-gray-800 dark:text-white">
            Our <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">Services</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6 rounded-full"></div>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-4 sm:mb-6 rounded-full"></div>
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed px-4">
             We offer comprehensive digital solutions tailored to meet your unique business needs 
             and drive measurable results across all channels.
           </p>
@@ -104,41 +115,45 @@ const ServicesSection = () => {
 
         {/* Services Carousel */}
         <div className="relative">
-          {/* Navigation Buttons */}
+          {/* Navigation Buttons - Hidden on mobile, visible on tablet+ */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-300"
+            className="hidden sm:flex absolute left-2 lg:left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 shadow-lg rounded-full p-2 lg:p-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300 items-center justify-center"
           >
-            <ChevronLeft className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+            <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6 text-gray-600 dark:text-gray-300" />
           </button>
           
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors duration-300"
+            className="hidden sm:flex absolute right-2 lg:right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white dark:bg-gray-800 shadow-lg rounded-full p-2 lg:p-3 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300 items-center justify-center"
           >
-            <ChevronRight className="w-6 h-6 text-gray-600 dark:text-gray-300" />
+            <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6 text-gray-600 dark:text-gray-300" />
           </button>
 
-          {/* Services Cards */}
-          <div className="mx-16 overflow-hidden">
+          {/* Services Cards Container */}
+          <div className="sm:mx-8 lg:mx-16 overflow-hidden">
             <div 
               className="flex transition-transform duration-500 ease-in-out"
               style={{ transform: `translateX(-${currentIndex * 100}%)` }}
             >
-              {Array.from({ length: Math.ceil(services.length / 2) }).map((_, slideIndex) => (
-                <div key={slideIndex} className="min-w-full">
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {services.slice(slideIndex * 2, slideIndex * 2 + 2).map((service, index) => (
-                      <div key={index} className="relative bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group border-0 hover:border-gray-100 dark:hover:border-gray-600 transform hover:-translate-y-2">
+              {Array.from({ length: totalPages }).map((_, slideIndex) => (
+                <div key={slideIndex} className="min-w-full px-2 sm:px-0">
+                  {/* Responsive Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                    {services.slice(slideIndex * itemsPerPage, slideIndex * itemsPerPage + itemsPerPage).map((service, index) => (
+                      <div 
+                        key={index} 
+                        className="relative bg-white dark:bg-gray-800 rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 group border-0 hover:border-gray-100 dark:hover:border-gray-600 transform hover:-translate-y-1 sm:hover:-translate-y-2 mx-auto w-full max-w-md lg:max-w-none"
+                      >
                         {/* Background Gradient Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-gray-100 dark:from-gray-800 dark:via-gray-700 dark:to-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         
                         {/* Decorative Elements */}
-                        <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
-                        <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-gradient-to-br from-pink-400/10 to-orange-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div className="absolute -top-4 -right-4 w-16 sm:w-24 h-16 sm:h-24 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
+                        <div className="absolute -bottom-4 -left-4 w-12 sm:w-20 h-12 sm:h-20 bg-gradient-to-br from-pink-400/10 to-orange-400/10 rounded-full blur-xl group-hover:scale-150 transition-transform duration-700"></div>
                         
                         {/* Image with enhanced overlay */}
-                        <div className="relative h-56 overflow-hidden">
+                        <div className="relative h-48 sm:h-56 overflow-hidden">
                           <img 
                             src={service.image} 
                             alt={service.title}
@@ -148,33 +163,33 @@ const ServicesSection = () => {
                           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20 group-hover:from-blue-500/10 group-hover:via-purple-500/10 group-hover:to-pink-500/10 transition-all duration-500"></div>
                           
                           {/* Floating Icon */}
-                          <div className="absolute top-6 right-6">
-                            <div className={`${service.iconBg} p-3 rounded-xl shadow-lg ${service.glowColor} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                              <service.icon className="w-6 h-6 text-white" />
+                          <div className="absolute top-4 sm:top-6 right-4 sm:right-6">
+                            <div className={`${service.iconBg} p-2 sm:p-3 rounded-lg sm:rounded-xl shadow-lg ${service.glowColor} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                              <service.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                             </div>
                           </div>
                         </div>
                         
-                        <div className="relative p-8 z-10">
+                        <div className="relative p-6 sm:p-8 z-10">
                           {/* Content */}
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className={`text-2xl font-bold ${service.titleColor} group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-300`}>
+                          <div className="flex items-center justify-between mb-3 sm:mb-4">
+                            <h3 className={`text-xl sm:text-2xl font-bold ${service.titleColor} group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-300`}>
                               {service.title}
                             </h3>
                             <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full group-hover:w-3 group-hover:h-3 transition-all duration-300"></div>
                           </div>
                           
-                          <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed font-medium group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">
+                          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mb-4 sm:mb-6 leading-relaxed font-medium group-hover:text-gray-700 dark:group-hover:text-gray-200 transition-colors duration-300">
                             {service.description}
                           </p>
                           
                           {/* Features with enhanced styling */}
-                          <div className="space-y-3 mb-8">
+                          <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
                             {service.features.map((feature, featureIndex) => (
-                              <div key={featureIndex} className="flex items-center text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-300">
-                                <div className="relative mr-3">
-                                  <div className={`w-2 h-2 ${service.accentColor} rounded-full`} />
-                                  <div className={`absolute inset-0 w-2 h-2 ${service.accentColor} rounded-full animate-ping opacity-20`} />
+                              <div key={featureIndex} className="flex items-center text-xs sm:text-sm text-gray-700 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-gray-200 transition-colors duration-300">
+                                <div className="relative mr-2 sm:mr-3">
+                                  <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 ${service.accentColor} rounded-full`} />
+                                  <div className={`absolute inset-0 w-1.5 h-1.5 sm:w-2 sm:h-2 ${service.accentColor} rounded-full animate-ping opacity-20`} />
                                 </div>
                                 <span className="font-medium">{feature}</span>
                               </div>
@@ -183,16 +198,16 @@ const ServicesSection = () => {
                           
                           {/* Enhanced CTA Button */}
                           <div className="relative overflow-hidden">
-                            <button className={`${service.titleColor} font-semibold hover:text-white transition-all duration-500 group/btn px-6 py-3 rounded-xl border-2 border-current hover:border-transparent relative z-10 flex items-center text-sm uppercase tracking-wide group-hover:translate-x-1`}>
+                            <button className={`${service.titleColor} font-semibold hover:text-white transition-all duration-500 group/btn px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl border-2 border-current hover:border-transparent relative z-10 flex items-center text-xs sm:text-sm uppercase tracking-wide group-hover:translate-x-1 w-full sm:w-auto justify-center sm:justify-start`}>
                               <span className="relative z-10">See Project</span>
                               <span className="ml-2 transition-transform duration-300 group-hover:translate-x-1">→</span>
-                              <div className={`absolute inset-0 ${service.iconBg} transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 rounded-xl`}></div>
+                              <div className={`absolute inset-0 ${service.iconBg} transform scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-500 rounded-lg sm:rounded-xl`}></div>
                             </button>
                           </div>
                         </div>
                         
                         {/* Subtle border glow effect */}
-                        <div className="absolute inset-0 rounded-3xl border border-transparent group-hover:border-gray-200 transition-all duration-500"></div>
+                        <div className="absolute inset-0 rounded-2xl sm:rounded-3xl border border-transparent group-hover:border-gray-200 dark:group-hover:border-gray-600 transition-all duration-500"></div>
                       </div>
                     ))}
                   </div>
@@ -201,44 +216,58 @@ const ServicesSection = () => {
             </div>
           </div>
 
-          {/* Pagination Dots */}
-          <div className="flex justify-center mt-8 space-x-4">
-  {Array.from({ length: Math.ceil(services.length / 2) }).map((_, index) => (
-    <button
-      key={index}
-      onClick={() => goToSlide(index)}
-      className={`relative w-6 h-2 transition-all duration-500 ${
-        index === currentIndex 
-          ? 'bg-gradient-to-r from-purple-500 to-pink-500 shadow-[0_0_15px_#a855f7]' 
-          : 'bg-gray-700 hover:bg-gray-600'
-      }`}
-      style={{
-        clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 50%, calc(100% - 4px) 100%, 0 100%, 4px 50%)'
-      }}
-    >
-      {index === currentIndex && (
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse opacity-50"
-             style={{
-               clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 50%, calc(100% - 4px) 100%, 0 100%, 4px 50%)'
-             }}
-        ></div>
-      )}
-    </button>
-  ))}
-</div>
+          {/* Mobile Navigation Dots - Only show on mobile */}
+          <div className="flex sm:hidden justify-center mt-6 space-x-2">
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex 
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 w-6' 
+                    : 'bg-gray-400 dark:bg-gray-600'
+                }`}
+              />
+            ))}
+          </div>
 
+          {/* Desktop Pagination Dots - Hidden on mobile */}
+          <div className="hidden sm:flex justify-center mt-6 lg:mt-8 space-x-3 lg:space-x-4">
+            {Array.from({ length: totalPages }).map((_, index) => (
+              <button
+                key={index}
+                onClick={() => goToSlide(index)}
+                className={`relative w-4 lg:w-6 h-2 transition-all duration-500 ${
+                  index === currentIndex 
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 shadow-[0_0_15px_#a855f7]' 
+                    : 'bg-gray-700 dark:bg-gray-600 hover:bg-gray-600 dark:hover:bg-gray-500'
+                }`}
+                style={{
+                  clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 50%, calc(100% - 4px) 100%, 0 100%, 4px 50%)'
+                }}
+              >
+                {index === currentIndex && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 animate-pulse opacity-50"
+                       style={{
+                         clipPath: 'polygon(0 0, calc(100% - 4px) 0, 100% 50%, calc(100% - 4px) 100%, 0 100%, 4px 50%)'
+                       }}
+                  ></div>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Process Section */}
-        <div className="mt-20">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">Our Process</h3>
-            <p className="text-lg text-gray-600 dark:text-gray-300">
+        <div className="mt-16 sm:mt-20">
+          <div className="text-center mb-8 sm:mb-12">
+            <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">Our Process</h3>
+            <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300 px-4">
               We follow a proven methodology to ensure successful project delivery
             </p>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {[
               { step: "01", title: "Discovery", description: "Understanding your needs and goals", color: "from-cyan-400 to-blue-600" },
               { step: "02", title: "Strategy", description: "Developing the perfect solution approach", color: "from-purple-400 to-pink-600" },
@@ -246,11 +275,11 @@ const ServicesSection = () => {
               { step: "04", title: "Launch", description: "Deploying and optimizing for success", color: "from-green-400 to-emerald-600" }
             ].map((phase, index) => (
               <div key={index} className="text-center group">
-                <div className={`w-16 h-16 bg-gradient-to-br ${phase.color} rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-lg group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                <div className={`w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br ${phase.color} rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4 text-white font-bold text-sm sm:text-lg group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   {phase.step}
                 </div>
-                <h4 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">{phase.title}</h4>
-                <p className="text-gray-600 dark:text-gray-400 text-sm font-medium">{phase.description}</p>
+                <h4 className="text-base sm:text-xl font-semibold text-gray-800 dark:text-white mb-1 sm:mb-2">{phase.title}</h4>
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm font-medium px-2">{phase.description}</p>
               </div>
             ))}
           </div>
